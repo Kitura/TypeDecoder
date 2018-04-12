@@ -53,7 +53,7 @@ extension UUID: DummyCodingValueProvider {
 
 // Main enum used to describe a decoded type
 // TODO: the associated data could do with labels
-indirect enum TypeInfo {
+public indirect enum TypeInfo {
     case single(Any.Type, Any.Type)
     case keyed(Any.Type, [String: TypeInfo])
     case dynamicKeyed(Any.Type, key: TypeInfo, value: TypeInfo)
@@ -63,8 +63,16 @@ indirect enum TypeInfo {
     case opaque(Any.Type)
 }
 
-extension TypeInfo: CustomStringConvertible {
+extension TypeInfo: CustomStringConvertible, Hashable {
     public var description: String { return describeTypeInfo(self) }
+
+    public var hashValue: Int {
+        return description.hashValue
+    }
+
+    public static func ==(lhs: TypeInfo, rhs: TypeInfo) -> Bool {
+        return lhs.description == rhs.description
+    }
 
     // Function to pretty print a TypeInfo
     // TODO: Maybe add a few more bits of info to the output
@@ -451,7 +459,7 @@ struct DummySingleValueDecodingContainer: SingleValueDecodingContainer {
 }
 
 // Main entry point for the TypeDecoder
-struct TypeDecoder {
+public struct TypeDecoder {
     fileprivate static func decodeInternal(_ type: Decodable.Type, typePath: [Any.Type]) throws -> TypeInfo {
         let internalDecoder = try InternalTypeDecoder(type, typePath: typePath)
         _ = try type.init(from: internalDecoder)
