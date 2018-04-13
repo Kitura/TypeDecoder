@@ -63,16 +63,8 @@ public indirect enum TypeInfo {
     case opaque(Any.Type)
 }
 
-extension TypeInfo: CustomStringConvertible, Hashable {
+extension TypeInfo: CustomStringConvertible {
     public var description: String { return describeTypeInfo(self) }
-
-    public var hashValue: Int {
-        return description.hashValue
-    }
-
-    public static func ==(lhs: TypeInfo, rhs: TypeInfo) -> Bool {
-        return lhs.description == rhs.description
-    }
 
     // Function to pretty print a TypeInfo
     // TODO: Maybe add a few more bits of info to the output
