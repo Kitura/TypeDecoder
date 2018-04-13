@@ -99,6 +99,18 @@ extension TypeInfo: CustomStringConvertible, Hashable {
     }
 }
 
+extension TypeInfo: Hashable {
+    public var hashValue: Int {
+        return description.hashValue
+    }
+}
+
+extension TypeInfo: Equatable {
+    public static func == (lhs: TypeInfo, rhs: TypeInfo) -> Bool {
+        return lhs.description == rhs.description
+    }
+}
+
 class InternalTypeDecoder: Decoder {
     let decodingType: Any.Type
     fileprivate var typePath: [Any.Type]
