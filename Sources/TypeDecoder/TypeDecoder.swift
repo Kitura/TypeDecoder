@@ -96,8 +96,8 @@ extension TypeInfo: CustomStringConvertible {
             return desc + "[\(describeTypeInfo(elementTypeInfo, indent: indent))]"
         case .cyclic(let type):
             return desc + "\(type){<cyclic>}"
-        case .single(_ /*let original*/, let type):
-            return desc + "\(type)"
+        case .single(let original, let type):
+            return desc + "\(original)----\(type)"
         case .optional(let wrappedTypeInfo):
             return desc + "\(describeTypeInfo(wrappedTypeInfo, indent: indent))?"
         case .opaque(let type):
@@ -340,6 +340,7 @@ struct TypeUnkeyedDecodingContainer: UnkeyedDecodingContainer {
 
     mutating func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> {
         // FIXME: Not implemented (dummy code just to keep the compiler happy)
+        isAtEnd = true
         return KeyedDecodingContainer(TypeKeyedDecodingContainer<NestedKey>(decoder))
     }
     mutating func nestedUnkeyedContainer() throws -> UnkeyedDecodingContainer {
