@@ -10,7 +10,7 @@ TypeDecoder is a Swift library to allow the inspection of Swift language native 
 
 ## Usage
 
-TypeDecoder.decode() returns a TypeInfo enum which describes the type passed to decode(). The TypeInfo enum values are:
+`TypeDecoder.decode()` returns a TypeInfo enum which describes the type passed to decode(). The TypeInfo enum values are:
 
 * **.single(Any.Type, Any.Type)** - A basic type.
 * **.keyed(Any.Type, [String: TypeInfo])** - A keyed container type, for example a struct or class.
