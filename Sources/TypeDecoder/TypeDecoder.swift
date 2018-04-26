@@ -96,7 +96,7 @@ extension TypeInfo: CustomStringConvertible {
             return desc + "[\(describeTypeInfo(elementTypeInfo, indent: indent))]"
         case .cyclic(let type):
             return desc + "\(type){<cyclic>}"
-        case .single(_, let type):
+        case .single(_ /*let original*/, let type):
             return desc + "\(type)"
         case .optional(let wrappedTypeInfo):
             return desc + "\(describeTypeInfo(wrappedTypeInfo, indent: indent))?"
