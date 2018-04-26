@@ -342,6 +342,7 @@ struct TypeUnkeyedDecodingContainer: UnkeyedDecodingContainer {
 
     mutating func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> {
         // FIXME: Not implemented (dummy code just to keep the compiler happy)
+        isAtEnd = true
         return KeyedDecodingContainer(TypeKeyedDecodingContainer<NestedKey>(decoder))
     }
     mutating func nestedUnkeyedContainer() throws -> UnkeyedDecodingContainer {
