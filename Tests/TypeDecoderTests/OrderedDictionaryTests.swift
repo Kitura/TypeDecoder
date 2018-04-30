@@ -25,8 +25,9 @@ class OrderedDictionaryTests: XCTestCase {
         for (k, v) in dict {
             if keys[count] != k {
                 XCTFail("key: \(keys[count]) not found or in wrong position")
-            } else if values[count] != String(describing: v) {
-                XCTFail("value: \(values[count]) not found or in wrong position")
+                if values[count] != String(describing: v) {
+                    XCTFail("value: \(values[count]) not found or in wrong position")
+                }
             }
             count += 1
         }
@@ -69,18 +70,6 @@ class OrderedDictionaryTests: XCTestCase {
         dict["two"] = "2"
         dict["three"] = "3"
 
-        let errorMsg = """
-        the description is incorrect,
-        got:
-        \"\"\"
-        \(dict.description)
-        \"\"\"
-        expected:
-        \"\"\"
-        \(testDesc)
-        \"\"\"
-        """
-
-        XCTAssertTrue(dict.description == testDesc, errorMsg)
+        XCTAssertEqual(dict.description, testDesc)
     }
 }
