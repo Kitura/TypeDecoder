@@ -57,7 +57,7 @@ class OrderedDictionaryTests: XCTestCase {
     }
 
     func testDescription() {
-        // Test that the descriptio method return a meaningful string.
+        // Test that the description method returns a meaningful string.
         var dict = OrderedDictionary<String, String>()
         let testDesc = """
         one: 1
