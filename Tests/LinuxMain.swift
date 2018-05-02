@@ -3,4 +3,5 @@ import XCTest
 
 XCTMain([
     testCase(TypeDecoderTests.allTests),
+    testCase(OrderedDictionaryTests.allTests),
 ])

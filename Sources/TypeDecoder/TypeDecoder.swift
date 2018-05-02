@@ -70,7 +70,7 @@ extension UUID: DummyCodingValueProvider {
 // TODO: the associated data could do with labels
 public indirect enum TypeInfo {
     case single(Any.Type, Any.Type)
-    case keyed(Any.Type, [String: TypeInfo])
+    case keyed(Any.Type, OrderedDictionary<String, TypeInfo>)
     case dynamicKeyed(Any.Type, key: TypeInfo, value: TypeInfo)
     case unkeyed(Any.Type, TypeInfo)
     case optional(TypeInfo)
@@ -200,7 +200,9 @@ class TypeKeyedDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
         switch decoder.typeInfo {
         case .opaque:
             // Initialize
-            decoder.typeInfo = .keyed(decoder.decodingType, [key.stringValue: info])
+            var dict = OrderedDictionary<String, TypeInfo>()
+            dict[key.stringValue] = info
+            decoder.typeInfo = .keyed(decoder.decodingType, dict)
         case .keyed(let decodingType, var allPropertyTypeInfos) where decodingType == decoder.decodingType:
             // Add new property
             allPropertyTypeInfos[key.stringValue] = info
