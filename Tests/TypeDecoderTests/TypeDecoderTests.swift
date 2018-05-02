@@ -88,6 +88,7 @@ class TypeDecoderTests: XCTestCase {
         // URLComponents
         // URLRequest
 
+        @available(OSX 10.11, *)
         func testPersonNameComponents() throws {
             var result = false
             let t = try TypeDecoder.decode(PersonNameComponents.self)
@@ -288,7 +289,9 @@ class TypeDecoderTests: XCTestCase {
         }
 
         XCTAssertNoThrow(try testAffineTransform())
-        XCTAssertNoThrow(try testPersonNameComponents())
+        if #available(OSX 10.11, *) {
+            XCTAssertNoThrow(try testPersonNameComponents())
+        }
         XCTAssertNoThrow(try testCharacterSet())
         XCTAssertNoThrow(try testDouble())
         XCTAssertNoThrow(try testArrayUInt16())
