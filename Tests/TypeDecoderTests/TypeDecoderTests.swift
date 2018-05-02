@@ -4,21 +4,6 @@ import XCTest
 
 class TypeDecoderTests: XCTestCase {
 
-    struct TestStruct: Decodable {
-        let id: Int
-        let name: String
-        let cyclicArray: [TestStruct]
-        let dynamicKeyed: [String:Int]
-        let optionalWrapped: Float?
-    }
-
-    class TestClass: Decodable {
-        let id: Int
-        let name: String
-        let dynamicKeyed: [String:Int]
-        let optionalWrapped: Float?
-    }
-
     static var allTests = [
         ("testNativeTypeDecoding", testNativeTypeDecoding),
         ("testFoundationTypeDecoding", testFoundationTypeDecoding),
@@ -249,7 +234,7 @@ class TypeDecoderTests: XCTestCase {
         func testURL() throws {
             // URL{
             //   relative: String,
-            //   base: URL{<cyclic}?
+            //   base: URL{<cyclic>}?
             // }
             if case .keyed(_, let dict) = try TypeDecoder.decode(URL.self) {
                 if let relative = dict["relative"] { 
@@ -281,7 +266,8 @@ class TypeDecoderTests: XCTestCase {
 
         func testUUID() throws {
             // test type is UUID (String)
-            if case .single(_, let decodedType) = try TypeDecoder.decode(UUID.self) {
+            if case .single(let originalType, let decodedType) = try TypeDecoder.decode(UUID.self) {
+                XCTAssert(UUID.self == originalType)
                 XCTAssert(String.self == decodedType)
             } else {
                 XCTFail("should have decoded a .single")
@@ -312,8 +298,8 @@ class TypeDecoderTests: XCTestCase {
             typeArray.append(Set<Int>.self)
 
             for knownType in typeArray {
-                if case .dynamicKeyed(_, let keyTypeInfo, let valueTypeInfo) = try TypeDecoder.decode(knownType) {
-                    if knownType == Dictionary<String,String>.self {
+                if case .dynamicKeyed(let originalType, let keyTypeInfo, let valueTypeInfo) = try TypeDecoder.decode(knownType) {
+                    if originalType == Dictionary<String,String>.self {
                         if case .single(_, let keyType) = keyTypeInfo {
                             XCTAssert(keyType == String.self)
                         } else {
@@ -328,14 +314,14 @@ class TypeDecoderTests: XCTestCase {
                         XCTFail("invalid type is interpreted as dynamicKeyed")
                     }
                 }
-                if case .unkeyed(_, let elementTypeInfo) = try TypeDecoder.decode(knownType) {
-                    if knownType == Array<Bool>.self {
+                if case .unkeyed(let originalType, let elementTypeInfo) = try TypeDecoder.decode(knownType) {
+                    if originalType == Array<Bool>.self {
                         if case .single(_, let decodedType) = elementTypeInfo {
                             XCTAssert(decodedType == Bool.self)
                         } else {
                             XCTFail("Array type returned incorrect contained type")
                         }
-                    } else if knownType == Set<Int>.self {
+                    } else if originalType == Set<Int>.self {
                         if case .single(_, let decodedType) = elementTypeInfo {
                             XCTAssert(decodedType == Int.self)
                         } else {
@@ -348,6 +334,14 @@ class TypeDecoderTests: XCTestCase {
             }
         }
         XCTAssertNoThrow(try testCollectionTypeDecoding())
+    }
+
+    struct TestStruct: Decodable {
+        let id: Int
+        let name: String
+        let cyclicArray: [TestStruct]
+        let dynamicKeyed: [String:Int]
+        let optionalWrapped: Float?
     }
 
     func testKeyedStructureTypeDecoding() {
@@ -371,6 +365,13 @@ class TypeDecoderTests: XCTestCase {
         }
 
         XCTAssertNoThrow(try keyedStructureTypeDecoding())
+    }
+
+    class TestClass: Decodable {
+        let id: Int
+        let name: String
+        let dynamicKeyed: [String:Int]
+        let optionalWrapped: Float?
     }
 
     func testKeyedClassTypeDecoding() {
