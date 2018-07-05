@@ -8,6 +8,7 @@ class OrderedDictionaryTests: XCTestCase {
         ("testIterator", testIterator),
         ("testElementRemoval", testElementRemoval),
         ("testElementReplacement", testElementReplacement),
+        ("testGetWithIntIndex", testGetWithIntIndex),
         ("testDescription", testDescription),
     ]
 
@@ -54,6 +55,19 @@ class OrderedDictionaryTests: XCTestCase {
         dict["two"] = "2+2"
 
         XCTAssertTrue(dict["two"] == "2+2", "failed to replace an element in dict")
+    }
+
+    func testGetWithIntIndex() {
+        // Test that an element can be replaced.
+        var dict = OrderedDictionary<String, String>()
+        dict["one"] = "1"
+        dict["two"] = "2"
+        dict["three"] = "2+1"
+
+        XCTAssertTrue(dict[0] == "1", "failed to get the correct element at index 0")
+        XCTAssertTrue(dict[1] == "2", "failed to get the correct element at index 1")
+        XCTAssertTrue(dict[2] == "2+1", "failed to get the correct element at index 2")
+        XCTAssertTrue(dict[3] == nil, "failed to get nil element at out of range index")
     }
 
     func testDescription() {

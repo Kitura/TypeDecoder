@@ -54,6 +54,15 @@ public struct OrderedDictionary<K: Hashable, V> {
         }
     }
 
+    /// Return the element value at the numeric index specified.
+    public subscript(index: Int) -> V? {
+        if self.keys.indices.contains(index) {
+            let key = self.keys[index]
+            return self.values[key]
+        }
+        return nil
+    }
+
     /// Read only property that provides a String containing the key:value pairs in the OrderedDictionary.
     public var description: String {
         var result = ""
