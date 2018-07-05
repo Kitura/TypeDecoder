@@ -333,7 +333,7 @@ class TypeDecoderTests: XCTestCase {
                 }
             }
         }
-        XCTAssertNoThrow(try testCollectionTypeDecoding())
+        XCTAssertNoThrow(try collectionTypeDecoding())
     }
 
     struct TestStruct: Decodable {

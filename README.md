@@ -8,6 +8,9 @@ TypeDecoder is a Swift library to allow the inspection of Swift language native 
 * [Summary](#summary)
 * [Usage](#usage)
 
+## Swift version
+The latest version of the TypeDecoder requires **Swift 4.0** or newer. You can download this version of the Swift binaries by following this [link](https://swift.org/download/). Compatibility with other Swift versions is not guaranteed.
+
 ## Usage
 
 `TypeDecoder.decode()` returns a TypeInfo enum which describes the type passed to `decode()`. The TypeInfo enum values are:

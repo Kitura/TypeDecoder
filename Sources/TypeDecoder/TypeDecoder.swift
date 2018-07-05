@@ -22,8 +22,8 @@ struct InternalError: Error {
     }
 }
 
-// Protocol and extension for detecting type erased dictionaries
-// and extracting their Key and Vaue types
+/// Protocol and extension for detecting type erased dictionaries
+/// and extracting their Key and Vaue types
 protocol DictionaryType {
     static func getKeyType() -> Any.Type
     static func getValueType() -> Any.Type
@@ -33,8 +33,8 @@ extension Dictionary: DictionaryType {
     static func getValueType() -> Any.Type { return Value.self }
 }
 
-// Protocols that allow a type to provide valid dummy values to
-// the TypeDecoder so that validation will pass
+/// Protocols that allow a type to provide valid dummy values to
+/// the TypeDecoder so that validation will pass
 protocol DummyKeyedCodingValueProvider {
     static func dummyCodingValue(forKey: CodingKey) -> Any?
 }
@@ -42,8 +42,8 @@ protocol DummyCodingValueProvider {
     static func dummyCodingValue() -> Any?
 }
 
-// Extensions of Foundation classes that have validations to provide
-// valid dummy values
+/// Extensions of Foundation classes that have validations to provide
+/// valid dummy values
 extension URL: DummyKeyedCodingValueProvider {
     static func dummyCodingValue(forKey key: CodingKey) -> Any? {
         switch key.intValue {
@@ -66,22 +66,79 @@ extension UUID: DummyCodingValueProvider {
     }
 }
 
-// Main enum used to describe a decoded type
-// TODO: the associated data could do with labels
+/// Main enum used to describe a decoded type
 public indirect enum TypeInfo {
+    /// Case representing a simple type which is not recursive
+    ///
+    /// Two types associated with this case: top level and low level 
+    ///
+    /// Example:
+    /// ```
+    /// String - single(String.Type, String.Type)
+    /// URL - single(URL.Type, String.Type)
+    /// ```
     case single(Any.Type, Any.Type)
+
+    /// Case representing a struct or a class containing the object type as
+    /// `Any.Type` and its nested types as an OrderedDictionary
+    ///
+    /// Example:
+    /// ```
+    /// struct User: Codable {
+    ///   let name: String
+    ///   let age: Int
+    /// }
+    /// .keyed(User.Type, ["name": .single(String.Type, String.Type), "age": .single(Int.Type, Int.Type)]
+    /// ```
     case keyed(Any.Type, OrderedDictionary<String, TypeInfo>)
+
+    /// Case representing a Dictionary containing the top level type of the
+    /// Dictionary, the type of the key and the type of the value
+    ///
+    /// Example: 
+    /// ```
+    /// [String: Int] -- .dynamicKeyed(Dictionary<String, Int>.Type, key: .single(String.Type, String.Type), value: .single(Int.Type, Int.Type))
+    /// ```
     case dynamicKeyed(Any.Type, key: TypeInfo, value: TypeInfo)
+
+    /// Case representing an Array containing the top level type of the array
+    /// and its nested type
+    ///
+    /// Example:
+    /// ```
+    /// [String] -- .unkeyed(Array<String>.Type, .single(String.Type, String.Type))
+    /// ```
     case unkeyed(Any.Type, TypeInfo)
+
+    /// Case representing an Optional type containing its nested type
+    ///
+    /// Example:
+    /// ```
+    /// String? -- .optional(.single(String.Type, String.Type))
+    /// ```
     case optional(TypeInfo)
+
+
+    /// Case representing a cyclic type so the associated type is the top level type
+    ///
+    /// Example:
+    /// ```
+    /// struct User: Codable {
+    ///   let name: String
+    ///   let friends: [User]
+    /// }
+    /// .keyed(User.Type, ["name": .single(String.Type, String.Type), "friends": .cyclic(User.Type)]
+    /// ```
     case cyclic(Any.Type)
+
+    /// Case representing a type that could not be decoded
     case opaque(Any.Type)
 }
 
 extension TypeInfo: CustomStringConvertible {
     public var description: String { return describeTypeInfo(self) }
 
-    // Function to pretty print a TypeInfo
+    /// Function to pretty print a TypeInfo
     // TODO: Maybe add a few more bits of info to the output
     func describeTypeInfo(_ t: TypeInfo?, desc: String = "", indent: Int = 0) -> String {
         guard let t = t else { return "No type info" }
@@ -480,7 +537,7 @@ struct DummySingleValueDecodingContainer: SingleValueDecodingContainer {
     func decode<T: Decodable>(_ type: T.Type) throws -> T { return try T(from: DummyDecoder(type)) }
 }
 
-// Main entry point for the TypeDecoder
+/// public TypeDecoder struct
 public struct TypeDecoder {
     fileprivate static func decodeInternal(_ type: Decodable.Type, typePath: [Any.Type]) throws -> TypeInfo {
         let internalDecoder = try InternalTypeDecoder(type, typePath: typePath)
@@ -489,6 +546,7 @@ public struct TypeDecoder {
         return typeInfo
     }
 
+    /// returns a TypeInfo enum which describes the type passed.
     public static func decode(_ type: Decodable.Type) throws -> TypeInfo {
         return try decodeInternal(type, typePath: [])
     }

@@ -13,24 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+///
 public struct OrderedDictionary<K: Hashable, V> {
     private var keys: Array<K> = []
     private var values: Dictionary<K, V> = [:]
     private var iteratorCount = 0
 
+    /// OrderedDictionary constructor
     public init() {}
 
-    /// count: read only property that provides a count of ther number of
-    /// elements in the OrderedDictionary.
+    /// Read only property that provides the number of elements in the OrderedDictionary.
     public var count: Int {
         get {
             return self.keys.count
         }
     }
 
-    /// subscript: provides a way to add and remove elements from the
-    /// OrderedDictionary, just like any other Dictionary. Setting an element to
-    /// nil will remove it from the OrderedDictionary.
+    /// Provides a way to add and remove elements from the
+    /// OrderedDictionary, just like any other Dictionary.
+    ///
+    /// Setting an element to nil will remove it from the OrderedDictionary.
     public subscript(key: K) -> V? {
         get {
             return self.values[key]
@@ -51,8 +54,7 @@ public struct OrderedDictionary<K: Hashable, V> {
         }
     }
 
-    /// description: read only property that provides a String containing the
-    /// key:value pairs in the OrderedDictionary.
+    /// Read only property that provides a String containing the key:value pairs in the OrderedDictionary.
     public var description: String {
         var result = ""
         for (k, v) in self {
@@ -64,7 +66,7 @@ public struct OrderedDictionary<K: Hashable, V> {
 }
 
 extension OrderedDictionary: Sequence, IteratorProtocol {
-    /// next: method to allow iteration over the contents of the
+    /// Method to allow iteration over the contents of the
     /// OrderedDictionary. This method ensures that items are read in the same
     /// sequence as they were added.
     public mutating func next() -> (K, V)? {
