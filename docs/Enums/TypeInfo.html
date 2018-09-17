@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TypeInfo Enumeration Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Enum/TypeInfo" class="dashAnchor"></a>
+
+    <a title="TypeInfo Enumeration Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          TypeDecoder Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/IBM-Swift/TypeDecoder">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">TypeDecoder Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      TypeInfo Enumeration Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/TypeInfo.html">TypeInfo</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/OrderedDictionary.html">OrderedDictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/TypeDecoder.html">TypeDecoder</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            <h1>TypeInfo</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">indirect</span> <span class="kd">enum</span> <span class="kt">TypeInfo</span></code></pre>
+
+                </div>
+              </div>
+            <p>Main enum used to describe a decoded type</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11TypeDecoder0A4InfoO6singleACypXp_ypXptcACmF"></a>
+                    <a name="//apple_ref/swift/Element/single" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO6singleACypXp_ypXptcACmF">single</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Case representing a simple type which is not recursive</p>
+
+<p>Two types associated with this case: top level and low level </p>
+
+<p>Example:</p>
+<pre class="highlight swift"><code><span class="kt">String</span> <span class="o">-</span> <span class="nf">single</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">)</span>
+<span class="kt">URL</span> <span class="o">-</span> <span class="nf">single</span><span class="p">(</span><span class="kt">URL</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">)</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">single</span><span class="p">(</span><span class="kt">Any</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">Any</span><span class="o">.</span><span class="k">Type</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11TypeDecoder0A4InfoO5keyedACypXp_AA17OrderedDictionaryVySSACGtcACmF"></a>
+                    <a name="//apple_ref/swift/Element/keyed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO5keyedACypXp_AA17OrderedDictionaryVySSACGtcACmF">keyed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Case representing a struct or a class containing the object type as
+<code>Any.Type</code> and its nested types as an OrderedDictionary</p>
+
+<p>Example:</p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">User</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">age</span><span class="p">:</span> <span class="kt">Int</span>
+<span class="p">}</span>
+<span class="o">.</span><span class="nf">keyed</span><span class="p">(</span><span class="kt">User</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">),</span> <span class="s">"age"</span><span class="p">:</span> <span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">Int</span><span class="o">.</span><span class="k">Type</span><span class="p">)]</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">keyed</span><span class="p">(</span><span class="kt">Any</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt"><a href="../Structs/OrderedDictionary.html">OrderedDictionary</a></span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kt">TypeInfo</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11TypeDecoder0A4InfoO12dynamicKeyedACypXp_AC3keyAC5valuetcACmF"></a>
+                    <a name="//apple_ref/swift/Element/dynamicKeyed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO12dynamicKeyedACypXp_AC3keyAC5valuetcACmF">dynamicKeyed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Case representing a Dictionary containing the top level type of the
+Dictionary, the type of the key and the type of the value</p>
+
+<p>Example: </p>
+<pre class="highlight swift"><code><span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Int</span><span class="p">]</span> <span class="o">--</span> <span class="o">.</span><span class="nf">dynamicKeyed</span><span class="p">(</span><span class="kt">Dictionary</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="o">&gt;.</span><span class="k">Type</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">),</span> <span class="nv">value</span><span class="p">:</span> <span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">Int</span><span class="o">.</span><span class="k">Type</span><span class="p">))</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">dynamicKeyed</span><span class="p">(</span><span class="kt">Any</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">TypeInfo</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">TypeInfo</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11TypeDecoder0A4InfoO7unkeyedACypXp_ACtcACmF"></a>
+                    <a name="//apple_ref/swift/Element/unkeyed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO7unkeyedACypXp_ACtcACmF">unkeyed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Case representing an Array containing the top level type of the array
+and its nested type</p>
+
+<p>Example:</p>
+<pre class="highlight swift"><code><span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">--</span> <span class="o">.</span><span class="nf">unkeyed</span><span class="p">(</span><span class="kt">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;.</span><span class="k">Type</span><span class="p">,</span> <span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">))</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">unkeyed</span><span class="p">(</span><span class="kt">Any</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">TypeInfo</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11TypeDecoder0A4InfoO8optionalA2CcACmF"></a>
+                    <a name="//apple_ref/swift/Element/optional" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO8optionalA2CcACmF">optional</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Case representing an Optional type containing its nested type</p>
+
+<p>Example:</p>
+<pre class="highlight swift"><code><span class="kt">String</span><span class="p">?</span> <span class="o">--</span> <span class="o">.</span><span class="nf">optional</span><span class="p">(</span><span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">))</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">optional</span><span class="p">(</span><span class="kt">TypeInfo</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11TypeDecoder0A4InfoO6cyclicACypXpcACmF"></a>
+                    <a name="//apple_ref/swift/Element/cyclic" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO6cyclicACypXpcACmF">cyclic</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Case representing a cyclic type so the associated type is the top level type</p>
+
+<p>Example:</p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">User</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">friends</span><span class="p">:</span> <span class="p">[</span><span class="kt">User</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="o">.</span><span class="nf">keyed</span><span class="p">(</span><span class="kt">User</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="p">[</span><span class="s">"name"</span><span class="p">:</span> <span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">),</span> <span class="s">"friends"</span><span class="p">:</span> <span class="o">.</span><span class="nf">cyclic</span><span class="p">(</span><span class="kt">User</span><span class="o">.</span><span class="k">Type</span><span class="p">)]</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">cyclic</span><span class="p">(</span><span class="kt">Any</span><span class="o">.</span><span class="k">Type</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11TypeDecoder0A4InfoO6opaqueACypXpcACmF"></a>
+                    <a name="//apple_ref/swift/Element/opaque" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO6opaqueACypXpcACmF">opaque</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Case representing a type that could not be decoded</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">opaque</span><span class="p">(</span><span class="kt">Any</span><span class="o">.</span><span class="k">Type</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s23CustomStringConvertibleP11descriptionSSvp"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s23CustomStringConvertibleP11descriptionSSvp">description</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s8HashableP9hashValueSivp"></a>
+                    <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s8HashableP9hashValueSivp">hashValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashValue</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s9EquatableP2eeoiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s9EquatableP2eeoiSbx_xtFZ">==(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">TypeInfo</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">TypeInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2018-09-17)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>
