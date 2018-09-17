@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TypeDecoder  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="TypeDecoder  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          TypeDecoder Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/IBM-Swift/TypeDecoder">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">TypeDecoder Reference</a>
+      <img class="carat" src="img/carat.png" />
+      TypeDecoder  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/TypeInfo.html">TypeInfo</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/OrderedDictionary.html">OrderedDictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/TypeDecoder.html">TypeDecoder</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            
+            <h1 id='typedecoder' class='heading'>TypeDecoder</h1>
+<h2 id='summary' class='heading'>Summary</h2>
+
+<p>TypeDecoder is a Swift library to allow the inspection of Swift language native and complex types. It was initially written for use within the <a href="http://kitura.io">Kitura</a> project but can easily be used for a wide range of projects where the dynamic inspection of types is required. </p>
+<h2 id='table-of-contents' class='heading'>Table of Contents</h2>
+
+<ul>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#usage">Usage</a></li>
+</ul>
+<h2 id='swift-version' class='heading'>Swift version</h2>
+
+<p>The latest version of the TypeDecoder requires <strong>Swift 4.0</strong> or newer. You can download this version of the Swift binaries by following this <a href="https://swift.org/download/">link</a>. Compatibility with other Swift versions is not guaranteed.</p>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p><code>TypeDecoder.decode()</code> returns a TypeInfo enum which describes the type passed to <code>decode()</code>. The TypeInfo enum values are:</p>
+
+<ul>
+<li><strong>.single(Any.Type, Any.Type)</strong> - A basic type.</li>
+<li><strong>.keyed(Any.Type, [String: TypeInfo])</strong> - A keyed container type, for example a struct or class.</li>
+<li><strong>.dynamicKeyed(Any.Type, key: TypeInfo, value: TypeInfo)</strong> - A dynamically keyed container type; a Dictionary.</li>
+<li><strong>.unkeyed(Any.Type, TypeInfo)</strong> - An unkeyed container type, for example an Array or Set.</li>
+<li><strong>.optional(TypeInfo)</strong> - An optional container type.</li>
+<li><strong>.cyclic(Any.Type)</strong> - A type that refers back to its own declaration, for example an Array field in a struct containing the same type as the struct.</li>
+<li><strong>.opaque(Any.Type)</strong> - A type that cannot be decoded.</li>
+</ul>
+
+<p>For each of these enum values, the first parameter is <strong>always</strong> the original type passed to the TypeDecoder for decoding.</p>
+<pre class="highlight swift"><code><span class="c1">/// Building and running this example shows how to decode a Swift data structure.</span>
+<span class="c1">///</span>
+<span class="c1">/// You should expect to see the following output:</span>
+<span class="c1">///</span>
+<span class="c1">/// Print the returned TypeInfo and you get this:</span>
+<span class="c1">/// StructType{</span>
+<span class="c1">///   myString: String,</span>
+<span class="c1">///   myOptional: Float?,</span>
+<span class="c1">///   myCyclic: [StructType{&lt;cyclic&gt;}],</span>
+<span class="c1">///   myDict: [String:Bool],</span>
+<span class="c1">///   myArray: [Int8]</span>
+<span class="c1">/// }</span>
+<span class="c1">///</span>
+<span class="c1">/// The Dictionary returned from decoding StructType contains:</span>
+<span class="c1">/// ["myString": String, "myOptional": Float?, "myCyclic": [StructType{&lt;cyclic&gt;}], "myDict": [String:Bool], "myArray": [Int8]]</span>
+<span class="c1">///</span>
+<span class="c1">/// Each field can be individually inspected:</span>
+<span class="c1">/// myString is type String</span>
+<span class="c1">/// myDict is type Dictionary&lt;String, Bool&gt;</span>
+<span class="c1">/// myArray contains type Int8</span>
+<span class="c1">/// myOptional is type Float</span>
+<span class="c1">///</span>
+<span class="c1">/// Cyclics are harder to deal with as they're buried inside an Array type:</span>
+<span class="c1">/// myCyclic is type StructType</span>
+
+<span class="kd">import</span> <span class="kt">TypeDecoder</span>
+
+<span class="kd">struct</span> <span class="kt">StructType</span><span class="p">:</span> <span class="kt">Decodable</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">myString</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">let</span> <span class="nv">myDict</span><span class="p">:</span> <span class="kt">Dictionary</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Bool</span><span class="o">&gt;</span>
+    <span class="k">let</span> <span class="nv">myArray</span><span class="p">:</span> <span class="p">[</span><span class="kt">Int8</span><span class="p">]</span>
+    <span class="k">let</span> <span class="nv">myOptional</span><span class="p">:</span> <span class="kt">Float</span><span class="p">?</span>
+    <span class="k">let</span> <span class="nv">myCyclic</span><span class="p">:</span> <span class="p">[</span><span class="kt">StructType</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">do</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">structTypeInfo</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">TypeDecoder</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">StructType</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+        <span class="c1">/// Print the returned TypeInfo and you get this:</span>
+        <span class="c1">///</span>
+        <span class="c1">/// StructType{</span>
+        <span class="c1">///   myString: String,</span>
+        <span class="c1">///   myDict: [String:Bool],</span>
+        <span class="c1">///   myArray: [Int8],</span>
+        <span class="c1">///   myOptional: Float?,</span>
+        <span class="c1">///   myCyclic: [StructType{&lt;cyclic&gt;}]</span>
+        <span class="c1">/// }</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"Print the returned TypeInfo and you get this:</span><span class="se">\n\(</span><span class="n">structTypeInfo</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="k">case</span> <span class="o">.</span><span class="nf">keyed</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="k">let</span> <span class="nv">dict</span><span class="p">)</span> <span class="o">=</span> <span class="n">structTypeInfo</span> <span class="p">{</span>
+            <span class="c1">/// .keyed TypeInfo conatins a Dictionary&lt;String, TypeInfo&gt; of all fields contained in</span>
+            <span class="c1">/// the keyed structure. So each field's TypeInfo can be retrieved by name.</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">The Dictionary returned from decoding StructType contains:</span><span class="se">\n\(</span><span class="n">dict</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Each field can be individually inspected:"</span><span class="p">)</span>
+
+            <span class="c1">/// Fields that are not containers will be .single</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">theTypeInfo</span> <span class="o">=</span> <span class="n">dict</span><span class="p">[</span><span class="s">"myString"</span><span class="p">]</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="k">case</span> <span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">theTypeInfo</span> <span class="p">{</span>
+                    <span class="nf">print</span><span class="p">(</span><span class="s">"myString is type </span><span class="se">\(</span><span class="n">theTypeInfo</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">/// .dynamicKeyed fields are Dictionary</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">theTypeInfo</span> <span class="o">=</span> <span class="n">dict</span><span class="p">[</span><span class="s">"myDict"</span><span class="p">]</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="k">case</span> <span class="o">.</span><span class="nf">dynamicKeyed</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="k">let</span> <span class="nv">keyTypeInfo</span><span class="p">,</span> <span class="k">let</span> <span class="nv">valueTypeInfo</span><span class="p">)</span> <span class="o">=</span> <span class="n">theTypeInfo</span> <span class="p">{</span>
+                    <span class="nf">print</span><span class="p">(</span><span class="s">"myDict is type Dictionary&lt;</span><span class="se">\(</span><span class="n">keyTypeInfo</span><span class="se">)</span><span class="s">, </span><span class="se">\(</span><span class="n">valueTypeInfo</span><span class="se">)</span><span class="s">&gt;"</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">/// .unkeyed fields are Array or Set</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">theTypeInfo</span> <span class="o">=</span> <span class="n">dict</span><span class="p">[</span><span class="s">"myArray"</span><span class="p">]</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="k">case</span> <span class="o">.</span><span class="nf">unkeyed</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="k">let</span> <span class="nv">theTypeInfo</span><span class="p">)</span> <span class="o">=</span> <span class="n">theTypeInfo</span> <span class="p">{</span>
+                    <span class="nf">print</span><span class="p">(</span><span class="s">"myArray contains type </span><span class="se">\(</span><span class="n">theTypeInfo</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">/// .optional field</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">theTypeInfo</span> <span class="o">=</span> <span class="n">dict</span><span class="p">[</span><span class="s">"myOptional"</span><span class="p">]</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="k">case</span> <span class="o">.</span><span class="nf">optional</span><span class="p">(</span><span class="k">let</span> <span class="nv">theTypeInfo</span><span class="p">)</span> <span class="o">=</span> <span class="n">theTypeInfo</span> <span class="p">{</span>
+                    <span class="nf">print</span><span class="p">(</span><span class="s">"myOptional is type </span><span class="se">\(</span><span class="n">theTypeInfo</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">/// .cyclic fields are embedded inside .unkeyed (Array or Set)  </span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">theTypeInfo</span> <span class="o">=</span> <span class="n">dict</span><span class="p">[</span><span class="s">"myCyclic"</span><span class="p">]</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Cyclics are harder to deal with as they're buried inside an Array type:"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="k">case</span> <span class="o">.</span><span class="nf">unkeyed</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="k">let</span> <span class="nv">theTypeInfo</span><span class="p">)</span> <span class="o">=</span> <span class="n">theTypeInfo</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="k">case</span> <span class="o">.</span><span class="nf">cyclic</span><span class="p">(</span><span class="k">let</span> <span class="nv">theTypeInfo</span><span class="p">)</span> <span class="o">=</span> <span class="n">theTypeInfo</span> <span class="p">{</span>
+                        <span class="nf">print</span><span class="p">(</span><span class="s">"myCyclic is type </span><span class="se">\(</span><span class="n">theTypeInfo</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="k">let</span> <span class="nv">error</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nf">main</span><span class="p">()</span>
+</code></pre>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2018-09-17)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>
