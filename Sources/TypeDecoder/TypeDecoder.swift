@@ -83,7 +83,7 @@ public indirect enum TypeInfo {
     /// `Any.Type` and its nested types as an `OrderedDictionary`.
     ///
     /// ### Usage Example: ###
-    /// ```
+    /// ```swift
     /// struct User: Codable {
     ///   let name: String
     ///   let age: Int
@@ -122,7 +122,7 @@ public indirect enum TypeInfo {
     /// Case representing a cyclic type so the associated type is the top level type.
     ///
     /// ### Usage Example: ###
-    /// ```
+    /// ```swift
     /// struct User: Codable {
     ///   let name: String
     ///   let friends: [User]
