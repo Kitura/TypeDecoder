@@ -20,7 +20,7 @@ public struct OrderedDictionary<K: Hashable, V> {
     private var values: Dictionary<K, V> = [:]
     private var iteratorCount = 0
 
-    /// OrderedDictionary constructor
+    /// OrderedDictionary constructor.
     public init() {}
 
     /// Read only property that provides the number of elements in the OrderedDictionary.
