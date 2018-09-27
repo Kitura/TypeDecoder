@@ -135,6 +135,33 @@ public indirect enum TypeInfo {
     case opaque(Any.Type)
 }
 
+/// Generates a `debugDescription` that describes the case of `self` and the type
+/// information associated with that case. This description does not recurse down
+/// into nested types.
+extension TypeInfo: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        switch self {
+        case .cyclic(let type):
+            return ".cyclic: \(String(reflecting: type))"
+        case .dynamicKeyed(_):
+            return ".dynamicKeyed: \(self.description)"
+        case .keyed(let original, _):
+            return ".keyed: \(String(reflecting: original))"
+        case .opaque(let type):
+            return ".opaque: \(String(reflecting: type))"
+        case .optional(let type):
+            return ".optional: \(type.debugDescription)"
+        case .single(_, let type):
+            return ".single: \(String(reflecting: type))"
+        case .unkeyed(_, let type):
+            return ".unkeyed: \(type.debugDescription)"
+        }
+    }
+}
+
+/// Generates a `description` which is a human-readable representation of the structured
+/// type information represented by `self`. This representation recurses into nested
+/// types.
 extension TypeInfo: CustomStringConvertible {
     public var description: String { return describeTypeInfo(self) }
 
