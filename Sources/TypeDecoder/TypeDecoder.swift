@@ -35,17 +35,17 @@ extension Dictionary: DictionaryType {
 
 /// Protocols that allow a type to provide valid dummy values to
 /// the TypeDecoder so that validation will pass
-protocol DummyKeyedCodingValueProvider {
+public protocol DummyKeyedCodingValueProvider {
     static func dummyCodingValue(forKey: CodingKey) -> Any?
 }
-protocol DummyCodingValueProvider {
+public protocol DummyCodingValueProvider {
     static func dummyCodingValue() -> Any?
 }
 
 /// Extensions of Foundation classes that have validations to provide
 /// valid dummy values
 extension URL: DummyKeyedCodingValueProvider {
-    static func dummyCodingValue(forKey key: CodingKey) -> Any? {
+    public static func dummyCodingValue(forKey key: CodingKey) -> Any? {
         switch key.intValue {
         case 1?: return "http://example.com/"
         default: return nil
@@ -53,7 +53,7 @@ extension URL: DummyKeyedCodingValueProvider {
     }
 }
 extension TimeZone: DummyKeyedCodingValueProvider {
-    static func dummyCodingValue(forKey key: CodingKey) -> Any? {
+    public static func dummyCodingValue(forKey key: CodingKey) -> Any? {
         switch key.intValue {
         case 0?: return TimeZone.current.identifier
         default: return nil
@@ -61,7 +61,7 @@ extension TimeZone: DummyKeyedCodingValueProvider {
     }
 }
 extension UUID: DummyCodingValueProvider {
-    static func dummyCodingValue() -> Any? {
+    public static func dummyCodingValue() -> Any? {
         return UUID().uuidString
     }
 }
