@@ -131,9 +131,9 @@ main()
 
 The `TypeDecoder` works by using the `Codable` framework to simulate the decoding of a type. The `init(from: Decoder)` initializer is invoked for the type (and any nested types), in order to discover its structure. To create an instance without a serialized representation, the decoder provides dummy values for each field.
 
-However, there are cases a type may need to perform validation of these values during initialization. TypeDecoder provides a mechanism for providing valid 'dummy' values during decoding through the `DummyCodingValueProvider` and `DummyKeyedCodingValueProvider` protocols.
+However, there are cases a type may need to perform validation of these values during initialization. TypeDecoder provides a mechanism for providing acceptable values during decoding through the `ValidSingleCodingValueProvider` and `ValidKeyedCodingValueProvider` protocols.
 
-### DummyCodingValueProvider
+### ValidSingleCodingValueProvider
 
 Below is an example of an `enum` with a raw value of `String`. Swift can synthesize Codable conformance for such a type, producing an `init(from: Decoder)` that requires a valid String matching one of the enum cases. Here is how you can extend such a type to be compatible with TypeDecoder:
 ```swift
@@ -142,14 +142,15 @@ public enum Fruit: String, Codable {
 }
 
 // Provide an acceptable value during decoding
-extension Fruit: DummyCodingValueProvider {
-    public static func dummyCodingValue() -> Any? {
+extension Fruit: ValidSingleCodingValueProvider {
+    public static func validCodingValue() -> Any? {
+        // Returns the string "apple"
         return self.apple.rawValue
     }
 }
 ```
 
-### DummyKeyedCodingValueProvider
+### ValidKeyedCodingValueProvider
 
 An example of a structured type, where one of the fields is validated, and an extension that enables it to be handled by the TypeDecoder:
 ```swift
@@ -175,7 +176,21 @@ extension YoungAdult: DummyKeyedCodingValueProvider {
         case self.CodingKeys.age.stringValue:
             return 20
         default:
+            // For any fields that are not validated, you may return nil.
+            // The TypeDecoder will use a standard dummy value.
             return nil
+        }
+    }
+}
+```
+
+An example, implemented in TypeDecoder, of extending a Foundation type that requires validation, and that uses numeric CodingKeys:
+```swift
+extension URL: ValidKeyedCodingValueProvider {
+    public static func validCodingValue(forKey key: CodingKey) -> Any? {
+        switch key.intValue {
+        case 1?: return "http://example.com/"
+        default: return nil
         }
     }
 }
