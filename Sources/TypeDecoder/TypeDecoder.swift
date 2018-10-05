@@ -418,10 +418,10 @@ class TypeKeyedDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
     func decode<T : Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
         let propertyInternalDecoder = try InternalTypeDecoder(type, typePath: decoder.typePath)
         do {
-        let propertyValue = try T(from: propertyInternalDecoder)
-        let propertyTypeInfo = propertyInternalDecoder.typeInfo
-        try updateKeyedTypeInfo(with: propertyTypeInfo, forKey: key)
-        return propertyValue
+            let propertyValue = try T(from: propertyInternalDecoder)
+            let propertyTypeInfo = propertyInternalDecoder.typeInfo
+            try updateKeyedTypeInfo(with: propertyTypeInfo, forKey: key)
+            return propertyValue
         } catch let error as DecodingError {
             // TODO: customize error to describe type and last attempted value
             throw error
