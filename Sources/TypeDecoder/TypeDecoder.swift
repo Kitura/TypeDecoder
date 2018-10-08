@@ -308,7 +308,7 @@ extension TypeInfo: Equatable {
 public struct TypeDecodingError: Error {
 
     /// A description of the error and the underlying error, which is of type `DecodingError`.
-    let context: DecodingError.Context
+    public let context: DecodingError.Context
 
     /// An indication of the type of failure associated with this error
     let symptom: Symptom
