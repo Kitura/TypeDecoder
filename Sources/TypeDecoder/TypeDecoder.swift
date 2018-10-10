@@ -33,38 +33,136 @@ extension Dictionary: DictionaryType {
     static func getValueType() -> Any.Type { return Value.self }
 }
 
-/// Protocols that allow a type to provide valid dummy values to
-/// the TypeDecoder so that validation will pass
-protocol DummyKeyedCodingValueProvider {
-    static func dummyCodingValue(forKey: CodingKey) -> Any?
+// MARK: Validation
+
+/**
+ A protocol that your Codable type can adopt, in order to supply values
+ for fields that are validated during decoding.
+
+ The TypeDecoder operates by constructing a 'dummy' instance of a type,
+ via the `init(from: Decoder)` initializer. As there is no real data to
+ be decoded, dummy values (such as `0` and `""`) are provided. This
+ may cause an initializer that requires specific valid values to fail.
+
+ To enable such a type to work with TypeDecoder, define an extension
+ that conforms the type to the `ValidKeyedCodingValueProvider` protocol.
+ The `validCodingValue(forKey:)` function should return a valid value
+ for fields that requires validation.
+
+ Example:
+ ```swift
+ public class YoungAdult: Codable {
+     let name: String
+     let age: Int
+     required public init(from decoder: Decoder) throws {
+         let container = try decoder.container(keyedBy: CodingKeys.self)
+         self.name = try container.decode(String.self, forKey: CodingKeys.name)
+         self.age = try container.decode(Int.self, forKey: CodingKeys.age)
+         // Validate the age field
+         guard self.age >= 18, self.age <= 30 else {
+             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "Age is outside the permitted range"))
+         }
+     }
+ }
+
+ // Provide a value for 'age' which is within the acceptable range
+ extension YoungAdult: ValidKeyedCodingValueProvider {
+     public static func validCodingValue(forKey key: CodingKey) -> Any? {
+         switch key.stringValue {
+         case self.CodingKeys.age.stringValue:
+             return 20
+         default:
+             // For any fields that are not validated, you may return nil.
+             // The TypeDecoder will use a standard dummy value.
+             return nil
+         }
+     }
+ }
+ ```
+ */
+public protocol ValidKeyedCodingValueProvider {
+
+    /// Returns a value for a `CodingKey` that represents a field that
+    /// requires validation. `nil` may be returned for all other fields.
+    ///
+    /// Example:
+    /// ```swift
+    /// switch key.stringValue {
+    /// case self.CodingKeys.email.stringValue:
+    ///     return "joe@example.com"
+    /// default:
+    ///     return nil
+    /// }
+    /// ```
+    static func validCodingValue(forKey: CodingKey) -> Any?
 }
-protocol DummyCodingValueProvider {
-    static func dummyCodingValue() -> Any?
+
+/**
+ A protocol that your Codable type can adopt, in order to supply a
+ valid value during decoding. This protocol is suitable for types that
+ are represented by a single encoded value, such as an enum.
+
+ The TypeDecoder operates by constructing a 'dummy' instance of a type,
+ via the `init(from: Decoder)` initializer. As there is no real data to
+ be decoded, a dummy value (such as `0` or `""`) is provided. This
+ may cause an initializer that requires a specific valid value to fail.
+
+ To enable such a type to work with TypeDecoder, define an extension
+ that conforms the type to the `ValidSingleCodingValueProvider` protocol.
+ The `validCodingValue()` function should return a valid encoded
+ representation of that type.
+
+ Example:
+ ```swift
+ public enum Fruit: String, Codable {
+     case apple, banana, orange, pear
+ }
+
+ // Provide an acceptable value during decoding
+ extension Fruit: ValidSingleCodingValueProvider {
+     public static func validCodingValue() -> Any? {
+         // Returns the string "apple"
+         return self.apple.rawValue
+     }
+ }
+ ```
+ */
+public protocol ValidSingleCodingValueProvider {
+
+    /// Returns a valid encoded representation of the conforming type.
+    ///
+    /// Example:
+    /// ```swift
+    ///     self.apple.rawValue
+    /// ```
+    static func validCodingValue() -> Any?
 }
 
 /// Extensions of Foundation classes that have validations to provide
 /// valid dummy values
-extension URL: DummyKeyedCodingValueProvider {
-    static func dummyCodingValue(forKey key: CodingKey) -> Any? {
+extension URL: ValidKeyedCodingValueProvider {
+    public static func validCodingValue(forKey key: CodingKey) -> Any? {
         switch key.intValue {
         case 1?: return "http://example.com/"
         default: return nil
         }
     }
 }
-extension TimeZone: DummyKeyedCodingValueProvider {
-    static func dummyCodingValue(forKey key: CodingKey) -> Any? {
+extension TimeZone: ValidKeyedCodingValueProvider {
+    public static func validCodingValue(forKey key: CodingKey) -> Any? {
         switch key.intValue {
         case 0?: return TimeZone.current.identifier
         default: return nil
         }
     }
 }
-extension UUID: DummyCodingValueProvider {
-    static func dummyCodingValue() -> Any? {
+extension UUID: ValidSingleCodingValueProvider {
+    public static func validCodingValue() -> Any? {
         return UUID().uuidString
     }
 }
+
+// MARK: TypeInfo
 
 /// Main enum used to describe a decoded type
 public indirect enum TypeInfo {
@@ -202,6 +300,58 @@ extension TypeInfo: Equatable {
     }
 }
 
+/// An `Error` type indicating a problem during decoding by the `TypeDecoder`.
+///
+/// This type provides additional guidance for `Decodable` types that do not
+/// conform to either the `ValidSingleCodingValueProvider` or `ValidKeyedCodingValueProvider`
+/// protocols, suggesting that conformance may enable successful decoding.
+public struct TypeDecodingError: Error {
+
+    /// A description of the error and the underlying error, which is of type `DecodingError`.
+    public let context: DecodingError.Context
+
+    /// An indication of the type of failure associated with this error
+    let symptom: Symptom
+
+    /// A set of possible failure types for a TypeDecodingError
+    enum Symptom: String {
+        /// A type conforms to ValidSingleCodingValueProvider, but was unable to be decoded
+        case invalidSingleValue
+        /// A type conforms to ValidKeyedCodingValueProvider, but was unable to be decoded
+        case invalidKeyedValue
+        /// A type was unable to be decoded, and did not conform to a CodingValueProvider protocol
+        case noValueProvided
+    }
+
+    // Describe decoding error, and suggest conformance to ValidKeyedCodingValueProvider
+    // or ValidSingleCodingValueProvider if the type does not already conform to one of
+    // those protocols.
+    static func decodingError(decoding type: Decodable.Type, forKey key: CodingKey? = nil, underlyingError: Swift.DecodingError) -> TypeDecodingError {
+        let codingPath: [CodingKey]
+        let context: DecodingError.Context
+        let symptom: Symptom
+        if let key = key {
+            codingPath = [key]
+        } else {
+            codingPath = []
+        }
+        if let _ = type as? ValidSingleCodingValueProvider.Type {
+            // The user's type already provides unkeyed values, but decoding failed
+            context = DecodingError.Context(codingPath: codingPath, debugDescription: "TypeDecoder was unable to decode single value type `\(type)`, confirm that the value supplied by `validCodingValue()` is valid.", underlyingError: underlyingError)
+            symptom = .invalidSingleValue
+        } else if let _ = type as? ValidKeyedCodingValueProvider.Type {
+            // The user's type already provides keyed values, but decoding failed
+            context = DecodingError.Context(codingPath: codingPath, debugDescription: "TypeDecoder was unable to decode keyed type `\(type)`, confirm that `validCodingValue(forKey:)` provides appropriate values for all validated fields.", underlyingError: underlyingError)
+            symptom = .invalidKeyedValue
+        } else {
+            // The user's type does not supply valid values, suggest a course of action
+            context = DecodingError.Context(codingPath: codingPath, debugDescription: "TypeDecoder was unable to decode type `\(type)`: conformance to `\(ValidKeyedCodingValueProvider.self)` or `\(ValidSingleCodingValueProvider.self)` may be required.", underlyingError: underlyingError)
+            symptom = .noValueProvided
+        }
+        return TypeDecodingError(context: context, symptom: symptom)
+    }
+}
+
 class InternalTypeDecoder: Decoder {
     let decodingType: Any.Type
     fileprivate var typePath: [Any.Type]
@@ -299,7 +449,7 @@ class TypeKeyedDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
     }
 
     func dummy<T>(forKey key: Key) -> T? {
-        return (decoder.decodingType as? DummyKeyedCodingValueProvider.Type)?.dummyCodingValue(forKey: key) as? T
+        return (decoder.decodingType as? ValidKeyedCodingValueProvider.Type)?.validCodingValue(forKey: key) as? T
     }
 
     func decodeNil(forKey key: Key) throws -> Bool                     { optionalKeys.insert(keyDesc(key)); return decoder.cyclic }
@@ -319,10 +469,15 @@ class TypeKeyedDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
     func decode(_ type: String.Type, forKey key: Key) throws -> String { try updateKeyedTypeInfo(with: .single(type, type), forKey: key); return dummy(forKey: key) ?? "" }
     func decode<T : Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
         let propertyInternalDecoder = try InternalTypeDecoder(type, typePath: decoder.typePath)
-        let propertyValue = try T(from: propertyInternalDecoder)
-        let propertyTypeInfo = propertyInternalDecoder.typeInfo
-        try updateKeyedTypeInfo(with: propertyTypeInfo, forKey: key)
-        return propertyValue
+        do {
+            let propertyValue = try T(from: propertyInternalDecoder)
+            let propertyTypeInfo = propertyInternalDecoder.typeInfo
+            try updateKeyedTypeInfo(with: propertyTypeInfo, forKey: key)
+            return propertyValue
+        } catch let error as DecodingError {
+            // Customize the error, informing the user of validation requirements if appropriate
+            throw TypeDecodingError.decodingError(decoding: T.self, forKey: key, underlyingError: error)
+        }
     }
     func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> {
         // FIXME
@@ -355,7 +510,7 @@ class TypeSingleValueDecodingContainer: SingleValueDecodingContainer {
     }
 
     func dummy<T>() -> T? {
-        return (decoder.decodingType as? DummyCodingValueProvider.Type)?.dummyCodingValue() as? T
+        return (decoder.decodingType as? ValidSingleCodingValueProvider.Type)?.validCodingValue() as? T
     }
 
     func decodeNil() -> Bool                          { isOptional = true; return decoder.cyclic }
@@ -374,11 +529,16 @@ class TypeSingleValueDecodingContainer: SingleValueDecodingContainer {
     func decode(_ type: Double.Type) throws -> Double { setTypeInfo(to: .single(decoder.decodingType, type)); return dummy() ?? 0 }
     func decode(_ type: String.Type) throws -> String { setTypeInfo(to: .single(decoder.decodingType, type)); return dummy() ?? "" }
     func decode<T : Decodable>(_ type: T.Type) throws -> T {
-        let internalDecoder = try InternalTypeDecoder(type, typePath: decoder.typePath)
-        let value = try T(from: internalDecoder)
-        let typeInfo = internalDecoder.typeInfo
-        setTypeInfo(to: typeInfo)
-        return value
+        do {
+            let internalDecoder = try InternalTypeDecoder(type, typePath: decoder.typePath)
+            let value = try T(from: internalDecoder)
+            let typeInfo = internalDecoder.typeInfo
+            setTypeInfo(to: typeInfo)
+            return value
+        } catch let error as DecodingError {
+            // Customize the error, informing the user of validation requirements if appropriate
+            throw TypeDecodingError.decodingError(decoding: T.self, underlyingError: error)
+        }
     }
 }
 
@@ -416,12 +576,17 @@ struct TypeUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     mutating func decode(_ type: Double.Type) throws -> Double { isAtEnd = true; setTypeInfo(to: .single(type, type)); return 0 }
     mutating func decode(_ type: String.Type) throws -> String { isAtEnd = true; setTypeInfo(to: .single(type, type)); return "" }
     mutating func decode<T : Decodable>(_ type: T.Type) throws -> T {
-        isAtEnd = true
-        let internalDecoder = try InternalTypeDecoder(type, typePath: decoder.typePath)
-        let value = try T(from: internalDecoder)
-        let typeInfo = internalDecoder.typeInfo
-        setTypeInfo(to: typeInfo)
-        return value
+        do {
+            isAtEnd = true
+            let internalDecoder = try InternalTypeDecoder(type, typePath: decoder.typePath)
+            let value = try T(from: internalDecoder)
+            let typeInfo = internalDecoder.typeInfo
+            setTypeInfo(to: typeInfo)
+            return value
+        } catch let error as DecodingError {
+            // Customize the error, informing the user of validation requirements if appropriate
+            throw TypeDecodingError.decodingError(decoding: T.self, underlyingError: error)
+        }
     }
 
     mutating func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> {
@@ -473,7 +638,7 @@ struct DummyKeyedDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtoc
     func contains(_ key: Key) -> Bool { return false }
 
     func dummy<T>(forKey key: Key) -> T? {
-        return (decoder.decodingType as? DummyKeyedCodingValueProvider.Type)?.dummyCodingValue(forKey: key) as? T
+        return (decoder.decodingType as? ValidKeyedCodingValueProvider.Type)?.validCodingValue(forKey: key) as? T
     }
 
     func decodeNil(forKey: Key) throws -> Bool { return true }
@@ -543,7 +708,7 @@ struct DummySingleValueDecodingContainer: SingleValueDecodingContainer {
     init(_ decoder: DummyDecoder) { self.decoder = decoder }
 
     func dummy<T>() -> T? {
-        return (decoder.decodingType as? DummyCodingValueProvider.Type)?.dummyCodingValue() as? T
+        return (decoder.decodingType as? ValidSingleCodingValueProvider.Type)?.validCodingValue() as? T
     }
 
     func decodeNil() -> Bool { return true }
@@ -568,9 +733,17 @@ struct DummySingleValueDecodingContainer: SingleValueDecodingContainer {
 public struct TypeDecoder {
     fileprivate static func decodeInternal(_ type: Decodable.Type, typePath: [Any.Type]) throws -> TypeInfo {
         let internalDecoder = try InternalTypeDecoder(type, typePath: typePath)
-        _ = try type.init(from: internalDecoder)
-        let typeInfo = internalDecoder.typeInfo
-        return typeInfo
+        do {
+            _ = try type.init(from: internalDecoder)
+            let typeInfo = internalDecoder.typeInfo
+            return typeInfo
+        } catch let error as DecodingError {
+            // Customize the error, informing the user of validation requirements if appropriate.
+            // Note, we only attempt to customize a `DecodingError` here, which occurs if decoding
+            // of the top-level type fails directly. A `DecodingError` occurring during decoding
+            // of a nested type will already have been customized and thrown as a `TypeDecodingError`.
+            throw TypeDecodingError.decodingError(decoding: type, underlyingError: error)
+        }
     }
 
     /// returns a TypeInfo enum which describes the type passed.

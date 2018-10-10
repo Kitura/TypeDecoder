@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Protocols  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="Protocols  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          TypeDecoder Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/IBM-Swift/TypeDecoder">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">TypeDecoder Reference</a>
+      <img class="carat" src="img/carat.png" />
+      Protocols  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/TypeInfo.html">TypeInfo</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/TimeZone.html">TimeZone</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/URL.html">URL</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/UUID.html">UUID</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/ValidKeyedCodingValueProvider.html">ValidKeyedCodingValueProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/ValidSingleCodingValueProvider.html">ValidSingleCodingValueProvider</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/OrderedDictionary.html">OrderedDictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/TypeDecoder.html">TypeDecoder</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/TypeDecodingError.html">TypeDecodingError</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            <h1>Protocols</h1>
+            <p>The following protocols are available globally.</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Validation"></a>
+                <a name="//apple_ref/swift/Section/Validation" class="dashAnchor"></a>
+                <a href="#/Validation">
+                  <h3 class="section-name">Validation</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11TypeDecoder29ValidKeyedCodingValueProviderP"></a>
+                    <a name="//apple_ref/swift/Protocol/ValidKeyedCodingValueProvider" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder29ValidKeyedCodingValueProviderP">ValidKeyedCodingValueProvider</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A protocol that your Codable type can adopt, in order to supply values
+for fields that are validated during decoding.</p>
+
+<p>The TypeDecoder operates by constructing a &lsquo;dummy&rsquo; instance of a type,
+via the <code>init(from: Decoder)</code> initializer. As there is no real data to
+be decoded, dummy values (such as <code>0</code> and <code>&quot;&quot;</code>) are provided. This
+may cause an initializer that requires specific valid values to fail.</p>
+
+<p>To enable such a type to work with TypeDecoder, define an extension
+that conforms the type to the <code>ValidKeyedCodingValueProvider</code> protocol.
+The <code>validCodingValue(forKey:)</code> function should return a valid value
+for fields that requires validation.</p>
+
+<p>Example:</p>
+<pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">YoungAdult</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">let</span> <span class="nv">age</span><span class="p">:</span> <span class="kt">Int</span>
+    <span class="kd">required</span> <span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">from</span> <span class="nv">decoder</span><span class="p">:</span> <span class="kt">Decoder</span><span class="p">)</span> <span class="k">throws</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">container</span> <span class="o">=</span> <span class="k">try</span> <span class="n">decoder</span><span class="o">.</span><span class="nf">container</span><span class="p">(</span><span class="nv">keyedBy</span><span class="p">:</span> <span class="kt">CodingKeys</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="k">try</span> <span class="n">container</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="kt">CodingKeys</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="k">try</span> <span class="n">container</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="kt">CodingKeys</span><span class="o">.</span><span class="n">age</span><span class="p">)</span>
+        <span class="c1">// Validate the age field</span>
+        <span class="k">guard</span> <span class="k">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">,</span> <span class="k">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&lt;=</span> <span class="mi">30</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="kt">DecodingError</span><span class="o">.</span><span class="nf">dataCorrupted</span><span class="p">(</span><span class="kt">DecodingError</span><span class="o">.</span><span class="kt">Context</span><span class="p">(</span><span class="nv">codingPath</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">debugDescription</span><span class="p">:</span> <span class="s">"Age is outside the permitted range"</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Provide a value for 'age' which is within the acceptable range</span>
+<span class="kd">extension</span> <span class="kt">YoungAdult</span><span class="p">:</span> <span class="kt">ValidKeyedCodingValueProvider</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">validCodingValue</span><span class="p">(</span><span class="n">forKey</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">CodingKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="n">key</span><span class="o">.</span><span class="n">stringValue</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="k">self</span><span class="o">.</span><span class="kt">CodingKeys</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="nv">stringValue</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">20</span>
+        <span class="k">default</span><span class="p">:</span>
+            <span class="c1">// For any fields that are not validated, you may return nil.</span>
+            <span class="c1">// The TypeDecoder will use a standard dummy value.</span>
+            <span class="k">return</span> <span class="kc">nil</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+                        <a href="Protocols/ValidKeyedCodingValueProvider.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ValidKeyedCodingValueProvider</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11TypeDecoder30ValidSingleCodingValueProviderP"></a>
+                    <a name="//apple_ref/swift/Protocol/ValidSingleCodingValueProvider" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder30ValidSingleCodingValueProviderP">ValidSingleCodingValueProvider</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A protocol that your Codable type can adopt, in order to supply a
+valid value during decoding. This protocol is suitable for types that
+are represented by a single encoded value, such as an enum.</p>
+
+<p>The TypeDecoder operates by constructing a &lsquo;dummy&rsquo; instance of a type,
+via the <code>init(from: Decoder)</code> initializer. As there is no real data to
+be decoded, a dummy value (such as <code>0</code> or <code>&quot;&quot;</code>) is provided. This
+may cause an initializer that requires a specific valid value to fail.</p>
+
+<p>To enable such a type to work with TypeDecoder, define an extension
+that conforms the type to the <code>ValidSingleCodingValueProvider</code> protocol.
+The <code>validCodingValue()</code> function should return a valid encoded
+representation of that type.</p>
+
+<p>Example:</p>
+<pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Fruit</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">Codable</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">apple</span><span class="p">,</span> <span class="n">banana</span><span class="p">,</span> <span class="n">orange</span><span class="p">,</span> <span class="n">pear</span>
+<span class="p">}</span>
+
+<span class="c1">// Provide an acceptable value during decoding</span>
+<span class="kd">extension</span> <span class="kt">Fruit</span><span class="p">:</span> <span class="kt">ValidSingleCodingValueProvider</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">validCodingValue</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?</span> <span class="p">{</span>
+        <span class="c1">// Returns the string "apple"</span>
+        <span class="k">return</span> <span class="k">self</span><span class="o">.</span><span class="n">apple</span><span class="o">.</span><span class="n">rawValue</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+                        <a href="Protocols/ValidSingleCodingValueProvider.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ValidSingleCodingValueProvider</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2018-10-08)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>
