@@ -166,9 +166,9 @@ extension UUID: ValidSingleCodingValueProvider {
 
 /// Main enum used to describe a decoded type
 public indirect enum TypeInfo {
-    /// Case representing a simple type which is not recursive
+    /// Represents a simple type that is not recursive - a primitive, a leaf type - String, Int, an enum - it's a single value type
     ///
-    /// Two types associated with this case: top level and low level 
+    /// Two types associated with this case: top level and low level.  First type is the type declared of the field, the second type represents the serialized form.  URL is an example of where the types are different (it serializes a single field from within itself, it's not a keyed container).
     ///
     /// Example:
     /// ```
@@ -352,18 +352,27 @@ public struct TypeDecodingError: Error {
     }
 }
 
+// For unkeyed, single or keyed, we expect the decode process to call us back.
+// For dynamicKeyed (Dictionary), we need to be more direct (see below)
 class InternalTypeDecoder: Decoder {
     let decodingType: Any.Type
     fileprivate var typePath: [Any.Type]
     fileprivate var typeInfo: TypeInfo
 
+    /// The typePath represents the type tree and our current point in the (recursive) decoding
+    /// process. It is used to detect cycles so that we do not recurse infinitely.
     init(_ type: Any.Type, typePath: [Any.Type]) throws {
         decodingType = type
+        // Start off by assigning a default state of .opaque. We expect this will be
+        // overwritten as we start to inspect the type. An example of a truly opaque
+        // type would be a struct with a custom init(from: Decoder) which does not call
+        // the decoder at all.
         typeInfo = .opaque(decodingType)
 
         var newTypePath = typePath
         newTypePath.append(type)
 
+        // Detect cycles in the type graph and break the cycle with a .cyclic case.
         guard !typePath.contains(where: { $0 == type }) else {
             self.typePath = newTypePath
             typeInfo = .cyclic(type)
@@ -371,6 +380,12 @@ class InternalTypeDecoder: Decoder {
         }
         self.typePath = newTypePath
 
+        // Special case: we can immediately detect that we are decoding a Dictionary type.
+        // Difference is that a struct's fields and types are known at compile time,
+        // whereas the default init for a Dictionary only calls the decoder if the dictionary
+        // instance has values (and since we are dummying the values, we don't have
+        // examples)
+        // TODO: Could there be other dynamic keyed types that are not Dictionary?
         if let dictionaryType = decodingType as? DictionaryType.Type,
             let keyType = dictionaryType.getKeyType() as? Decodable.Type,
             let valueType = dictionaryType.getValueType() as? Decodable.Type {
@@ -387,14 +402,31 @@ class InternalTypeDecoder: Decoder {
 
     var cyclic: Bool { if case .cyclic = typeInfo { return true } else { return false } }
 
+    // The containers are all about the serialized form of a type. There is a relationship
+    // between the nature of the Swift type and the container with synthesized initializers,
+    // but types could override this to do whatever form they choose.
+
+    // When we get called back, this tells us what type of container the type represents
+    // This is a struct-type container
+    // A JSON Object
     func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> {
         if case .opaque = typeInfo {
+            // This is probably the first time we've been called, and the container type
+            // is currently unknown. (Naming: maybe unknown instead of opaque)
             return KeyedDecodingContainer(TypeKeyedDecodingContainer<Key>(self))
         } else {
+            // We already know which enum case we're in and don't need further help
+            // from the decode process, however we need to make sure the decode process
+            // succeeds so init will continue. Nothing at all is recorded as part of
+            // the DummyDecoder process.
+            // TODO: Why do we need to do this?
+            // Google: minimal decoder for Swift
             return KeyedDecodingContainer(DummyKeyedDecodingContainer<Key>(DummyDecoder(decodingType)))
         }
     }
 
+    // Array-type container
+    // A JSON Array
     func unkeyedContainer() throws -> UnkeyedDecodingContainer {
         if case .opaque = typeInfo {
             return TypeUnkeyedDecodingContainer(self)
@@ -403,6 +435,10 @@ class InternalTypeDecoder: Decoder {
         }
     }
 
+    // A type that has a single piece of data as its serialized form, eg.
+    // a primitive or enum, or the Optional type, or something like URL
+    // TODO: investigate enums more with multiple associated values
+    // A JSON single value - String or Number
     func singleValueContainer() throws -> SingleValueDecodingContainer {
         if case .opaque = typeInfo {
             return TypeSingleValueDecodingContainer(self)
@@ -421,6 +457,9 @@ class TypeKeyedDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
     }
 
     var codingPath: [CodingKey] { return [] }
+    // TODO: It's important to understand this (allKeys)
+    // it's to do with dealing with the keys and values of a Dictionary
+    // as these are defined by the data (not statically)
     var allKeys: [Key] { return [] }
 
     func contains(_ key: Key) -> Bool { return true }
@@ -448,6 +487,7 @@ class TypeKeyedDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
         }
     }
 
+    // Does the current type conform to ValidKeyedCodingValueProvider? If so, ask it for a value.
     func dummy<T>(forKey key: Key) -> T? {
         return (decoder.decodingType as? ValidKeyedCodingValueProvider.Type)?.validCodingValue(forKey: key) as? T
     }
@@ -479,6 +519,11 @@ class TypeKeyedDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
             throw TypeDecodingError.decodingError(decoding: T.self, forKey: key, underlyingError: error)
         }
     }
+
+    // Nested containers are to do with making the structure of the serialized form
+    // more complex (deeper) than the equivalent Swift form. For example, to map a
+    // JSON structure name { first, last } to firstName and lastName
+
     func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> {
         // FIXME
         return KeyedDecodingContainer(TypeKeyedDecodingContainer<NestedKey>(decoder))
@@ -487,6 +532,10 @@ class TypeKeyedDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
         // FIXME
         return TypeUnkeyedDecodingContainer(decoder)
     }
+
+    // TODO: Investigate unkeyed and dynamic keyed decoding, this relates to the use
+    // of superDecoder
+
     func superDecoder() throws -> Decoder {
         return try InternalTypeDecoder(decoder.decodingType, typePath: decoder.typePath) // FIXME
     }
@@ -608,6 +657,13 @@ struct TypeUnkeyedDecodingContainer: UnkeyedDecodingContainer {
 // This decoder is for when we don't care about type information and just need to
 // create a value of the decode type (used when we have already decoded the type
 // without recursing, eg for Dictionary and when a cycle is detected)
+//
+// This _may_ just exist because it's less work than making the InternalTypeDecoder
+// do less when we don't want more type info?
+//
+// This (and the associated decoding containers) represent a 'minimal' decoder
+// SuperDecoder is to do with inheritance, but do (or did) get used for Arrays.
+// TODO: learn more about SuperDecoder
 struct DummyDecoder: Decoder {
     let decodingType: Any.Type
     public let codingPath: [CodingKey] = []
@@ -748,6 +804,7 @@ public struct TypeDecoder {
 
     /// returns a TypeInfo enum which describes the type passed.
     public static func decode(_ type: Decodable.Type) throws -> TypeInfo {
+        // Prevents user seeing or having access to the typePath
         return try decodeInternal(type, typePath: [])
     }
 }
