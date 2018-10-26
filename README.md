@@ -76,7 +76,7 @@ func main() {
         print("Print the returned TypeInfo and you get this:\n\(structTypeInfo)")
 
         if case .keyed(_, let dict) = structTypeInfo {
-            /// .keyed TypeInfo conatins a Dictionary<String, TypeInfo> of all fields contained in
+            /// .keyed TypeInfo contains a Dictionary<String, TypeInfo> of all fields contained in
             /// the keyed structure. So each field's TypeInfo can be retrieved by name.
             print("\nThe Dictionary returned from decoding StructType contains:\n\(dict)")
             print("\nEach field can be individually inspected:")
