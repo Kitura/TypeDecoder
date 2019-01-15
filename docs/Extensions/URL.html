@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>TypeDecoder Structure Reference</title>
+    <title>URL Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/TypeDecoder" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Extension/URL" class="dashAnchor"></a>
 
-    <a title="TypeDecoder Structure Reference"></a>
+    <a title="URL Extension Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">TypeDecoder Reference</a>
       <img class="carat" src="../img/carat.png" />
-      TypeDecoder Structure Reference
+      URL Extension Reference
     </p>
 
     <div class="content-wrapper">
@@ -103,14 +103,15 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>TypeDecoder</h1>
+            <h1>URL</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TypeDecoder</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">URL</span> <span class="p">:</span> <span class="kt">ReferenceConvertible</span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
 
                 </div>
               </div>
-            <p>public TypeDecoder struct</p>
+            <p>Extensions of Foundation classes that have validations to provide
+valid dummy values</p>
 
           </div>
         </section>
@@ -122,9 +123,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11TypeDecoderAAV6decodeAA0A4InfoOs9Decodable_pXpKFZ"></a>
-                    <a name="//apple_ref/swift/Method/decode(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11TypeDecoderAAV6decodeAA0A4InfoOs9Decodable_pXpKFZ">decode(_:)</a>
+                    <a name="/s:11TypeDecoder29ValidKeyedCodingValueProviderP05valideF0ypSgs0E3Key_p03forI0_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/validCodingValue(forKey:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder29ValidKeyedCodingValueProviderP05valideF0ypSgs0E3Key_p03forI0_tFZ">validCodingValue(forKey:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -132,14 +133,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>returns a TypeInfo enum which describes the type passed.</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">decode</span><span class="p">(</span><span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">.</span><span class="k">Type</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/TypeInfo.html">TypeInfo</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">validCodingValue</span><span class="p">(</span><span class="n">forKey</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">CodingKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
