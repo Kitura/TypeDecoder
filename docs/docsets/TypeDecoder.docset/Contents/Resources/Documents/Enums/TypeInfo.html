@@ -110,7 +110,7 @@
 
                 </div>
               </div>
-            <p>Main enum used to describe a decoded type</p>
+            <p>Main enum used to describe a decoded type.</p>
 
           </div>
         </section>
@@ -132,11 +132,10 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Case representing a simple type which is not recursive</p>
+                        <p>Case representing a simple type, such as a String, which is not recursive.</p>
 
-<p>Two types associated with this case: top level and low level </p>
-
-<p>Example:</p>
+<p>Two types associated with this case: top level and low level.</p>
+<h3 id='usage-example' class='heading'>Usage Example:</h3>
 <pre class="highlight swift"><code><span class="kt">String</span> <span class="o">-</span> <span class="nf">single</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">)</span>
 <span class="kt">URL</span> <span class="o">-</span> <span class="nf">single</span><span class="p">(</span><span class="kt">URL</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">)</span>
 </code></pre>
@@ -171,9 +170,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Case representing a struct or a class containing the object type as
-<code>Any.Type</code> and its nested types as an OrderedDictionary</p>
-
-<p>Example:</p>
+<code>Any.Type</code> and its nested types as an <code><a href="../Structs/OrderedDictionary.html">OrderedDictionary</a></code>.</p>
+<h3 id='usage-example' class='heading'>Usage Example:</h3>
 <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">User</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
   <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
   <span class="k">let</span> <span class="nv">age</span><span class="p">:</span> <span class="kt">Int</span>
@@ -211,9 +209,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Case representing a Dictionary containing the top level type of the
-Dictionary, the type of the key and the type of the value</p>
-
-<p>Example: </p>
+Dictionary, the type of the key and the type of the value.</p>
+<h3 id='usage-example' class='heading'>Usage Example:</h3>
 <pre class="highlight swift"><code><span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Int</span><span class="p">]</span> <span class="o">--</span> <span class="o">.</span><span class="nf">dynamicKeyed</span><span class="p">(</span><span class="kt">Dictionary</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="o">&gt;.</span><span class="k">Type</span><span class="p">,</span> <span class="nv">key</span><span class="p">:</span> <span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">),</span> <span class="nv">value</span><span class="p">:</span> <span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">Int</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">Int</span><span class="o">.</span><span class="k">Type</span><span class="p">))</span>
 </code></pre>
 
@@ -247,9 +244,8 @@ Dictionary, the type of the key and the type of the value</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Case representing an Array containing the top level type of the array
-and its nested type</p>
-
-<p>Example:</p>
+and its nested type.</p>
+<h3 id='usage-example' class='heading'>Usage Example:</h3>
 <pre class="highlight swift"><code><span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">--</span> <span class="o">.</span><span class="nf">unkeyed</span><span class="p">(</span><span class="kt">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;.</span><span class="k">Type</span><span class="p">,</span> <span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">))</span>
 </code></pre>
 
@@ -282,9 +278,8 @@ and its nested type</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Case representing an Optional type containing its nested type</p>
-
-<p>Example:</p>
+                        <p>Case representing an Optional type containing its nested type.</p>
+<h3 id='usage-example' class='heading'>Usage Example:</h3>
 <pre class="highlight swift"><code><span class="kt">String</span><span class="p">?</span> <span class="o">--</span> <span class="o">.</span><span class="nf">optional</span><span class="p">(</span><span class="o">.</span><span class="nf">single</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="kt">String</span><span class="o">.</span><span class="k">Type</span><span class="p">))</span>
 </code></pre>
 
@@ -317,9 +312,8 @@ and its nested type</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Case representing a cyclic type so the associated type is the top level type</p>
-
-<p>Example:</p>
+                        <p>Case representing a cyclic type so the associated type is the top level type.</p>
+<h3 id='usage-example' class='heading'>Usage Example:</h3>
 <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">User</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
   <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
   <span class="k">let</span> <span class="nv">friends</span><span class="p">:</span> <span class="p">[</span><span class="kt">User</span><span class="p">]</span>
@@ -356,7 +350,7 @@ and its nested type</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Case representing a type that could not be decoded</p>
+                        <p>Case representing a type that could not be decoded.</p>
 
                       </div>
                       <div class="declaration">
@@ -498,7 +492,7 @@ and its nested type</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2018-10-08)</p>
+      <p>&copy; 2019 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2019-01-31)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
