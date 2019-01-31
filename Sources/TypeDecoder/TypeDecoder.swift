@@ -166,11 +166,11 @@ extension UUID: ValidSingleCodingValueProvider {
 
 /// Main enum used to describe a decoded type
 public indirect enum TypeInfo {
-    /// Case representing a simple type which is not recursive
+    /// Case representing a simple type, such as a String, which is not recursive.
     ///
-    /// Two types associated with this case: top level and low level 
+    /// Two types associated with this case: top level and low level.
     ///
-    /// Example:
+    /// ### Usage Example: ###
     /// ```
     /// String - single(String.Type, String.Type)
     /// URL - single(URL.Type, String.Type)
@@ -178,10 +178,10 @@ public indirect enum TypeInfo {
     case single(Any.Type, Any.Type)
 
     /// Case representing a struct or a class containing the object type as
-    /// `Any.Type` and its nested types as an OrderedDictionary
+    /// `Any.Type` and its nested types as an `OrderedDictionary`.
     ///
-    /// Example:
-    /// ```
+    /// ### Usage Example: ###
+    /// ```swift
     /// struct User: Codable {
     ///   let name: String
     ///   let age: Int
@@ -191,36 +191,36 @@ public indirect enum TypeInfo {
     case keyed(Any.Type, OrderedDictionary<String, TypeInfo>)
 
     /// Case representing a Dictionary containing the top level type of the
-    /// Dictionary, the type of the key and the type of the value
+    /// Dictionary, the type of the key and the type of the value.
     ///
-    /// Example: 
+    /// ### Usage Example: ###
     /// ```
     /// [String: Int] -- .dynamicKeyed(Dictionary<String, Int>.Type, key: .single(String.Type, String.Type), value: .single(Int.Type, Int.Type))
     /// ```
     case dynamicKeyed(Any.Type, key: TypeInfo, value: TypeInfo)
 
     /// Case representing an Array containing the top level type of the array
-    /// and its nested type
+    /// and its nested type.
     ///
-    /// Example:
+    /// ### Usage Example: ###
     /// ```
     /// [String] -- .unkeyed(Array<String>.Type, .single(String.Type, String.Type))
     /// ```
     case unkeyed(Any.Type, TypeInfo)
 
-    /// Case representing an Optional type containing its nested type
+    /// Case representing an Optional type containing its nested type.
     ///
-    /// Example:
+    /// ### Usage Example: ###
     /// ```
     /// String? -- .optional(.single(String.Type, String.Type))
     /// ```
     case optional(TypeInfo)
 
 
-    /// Case representing a cyclic type so the associated type is the top level type
+    /// Case representing a cyclic type so the associated type is the top level type.
     ///
-    /// Example:
-    /// ```
+    /// ### Usage Example: ###
+    /// ```swift
     /// struct User: Codable {
     ///   let name: String
     ///   let friends: [User]
@@ -229,7 +229,7 @@ public indirect enum TypeInfo {
     /// ```
     case cyclic(Any.Type)
 
-    /// Case representing a type that could not be decoded
+    /// Case representing a type that could not be decoded.
     case opaque(Any.Type)
 }
 
@@ -729,7 +729,8 @@ struct DummySingleValueDecodingContainer: SingleValueDecodingContainer {
     func decode<T: Decodable>(_ type: T.Type) throws -> T { return try T(from: DummyDecoder(type)) }
 }
 
-/// public TypeDecoder struct
+/// TypeDecoder allows you to decode a Swift type by using `TypeDecoder.decode()` and passing the type to be
+/// decoded.
 public struct TypeDecoder {
     fileprivate static func decodeInternal(_ type: Decodable.Type, typePath: [Any.Type]) throws -> TypeInfo {
         let internalDecoder = try InternalTypeDecoder(type, typePath: typePath)
@@ -746,7 +747,16 @@ public struct TypeDecoder {
         }
     }
 
-    /// returns a TypeInfo enum which describes the type passed.
+    /// Returns a TypeInfo enum which describes the type passed in.
+    ///
+    /// ### Usage Example: ###
+    /// ```swift
+    /// struct StructureType: Decodable {
+    ///   let aString: String
+    /// }
+    ///
+    /// let structureTypeInfo = try TypeDecoder.decode(StructureType.self)
+    /// ```
     public static func decode(_ type: Decodable.Type) throws -> TypeInfo {
         return try decodeInternal(type, typePath: [])
     }
