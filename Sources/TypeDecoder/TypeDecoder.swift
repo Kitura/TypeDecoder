@@ -49,7 +49,7 @@ extension Dictionary: DictionaryType {
  The `validCodingValue(forKey:)` function should return a valid value
  for fields that requires validation.
 
- Example:
+ ### Usage Example: ###
  ```swift
  public class YoungAdult: Codable {
      let name: String
@@ -85,7 +85,7 @@ public protocol ValidKeyedCodingValueProvider {
     /// Returns a value for a `CodingKey` that represents a field that
     /// requires validation. `nil` may be returned for all other fields.
     ///
-    /// Example:
+    /// ### Usage Example: ###
     /// ```swift
     /// switch key.stringValue {
     /// case self.CodingKeys.email.stringValue:
@@ -112,7 +112,7 @@ public protocol ValidKeyedCodingValueProvider {
  The `validCodingValue()` function should return a valid encoded
  representation of that type.
 
- Example:
+ ### Usage Example: ###
  ```swift
  public enum Fruit: String, Codable {
      case apple, banana, orange, pear
@@ -131,15 +131,15 @@ public protocol ValidSingleCodingValueProvider {
 
     /// Returns a valid encoded representation of the conforming type.
     ///
-    /// Example:
+    /// ### Usage Example: ###
     /// ```swift
     ///     self.apple.rawValue
     /// ```
     static func validCodingValue() -> Any?
 }
 
-/// Extensions of Foundation classes that have validations to provide
-/// valid dummy values
+/// Extension of the `URL` Foundation class that has validations to provide
+/// valid dummy values.
 extension URL: ValidKeyedCodingValueProvider {
     public static func validCodingValue(forKey key: CodingKey) -> Any? {
         switch key.intValue {
@@ -148,6 +148,8 @@ extension URL: ValidKeyedCodingValueProvider {
         }
     }
 }
+/// Extension of the `TimeZone` Foundation class that has validations to provide
+/// valid dummy values.
 extension TimeZone: ValidKeyedCodingValueProvider {
     public static func validCodingValue(forKey key: CodingKey) -> Any? {
         switch key.intValue {
@@ -156,6 +158,8 @@ extension TimeZone: ValidKeyedCodingValueProvider {
         }
     }
 }
+/// Extension of the `UUID` Foundation class that has validations to provide
+/// valid dummy values.
 extension UUID: ValidSingleCodingValueProvider {
     public static func validCodingValue() -> Any? {
         return UUID().uuidString
@@ -164,7 +168,7 @@ extension UUID: ValidSingleCodingValueProvider {
 
 // MARK: TypeInfo
 
-/// Main enum used to describe a decoded type
+/// Main enum used to describe a decoded type.
 public indirect enum TypeInfo {
     /// Case representing a simple type, such as a String, which is not recursive.
     ///
@@ -323,8 +327,8 @@ public struct TypeDecodingError: Error {
         case noValueProvided
     }
 
-    // Describe decoding error, and suggest conformance to ValidKeyedCodingValueProvider
-    // or ValidSingleCodingValueProvider if the type does not already conform to one of
+    // Describe decoding error, and suggest conformance to `ValidKeyedCodingValueProvider`
+    // or `ValidSingleCodingValueProvider` if the type does not already conform to one of
     // those protocols.
     static func decodingError(decoding type: Decodable.Type, forKey key: CodingKey? = nil, underlyingError: Swift.DecodingError) -> TypeDecodingError {
         let codingPath: [CodingKey]
@@ -729,8 +733,8 @@ struct DummySingleValueDecodingContainer: SingleValueDecodingContainer {
     func decode<T: Decodable>(_ type: T.Type) throws -> T { return try T(from: DummyDecoder(type)) }
 }
 
-/// TypeDecoder allows you to decode a Swift type by using `TypeDecoder.decode()` and passing the type to be
-/// decoded.
+/// `TypeDecoder` allows you to decode a Swift type by using `TypeDecoder.decode()` and passing the type to
+/// be decoded.
 public struct TypeDecoder {
     fileprivate static func decodeInternal(_ type: Decodable.Type, typePath: [Any.Type]) throws -> TypeInfo {
         let internalDecoder = try InternalTypeDecoder(type, typePath: typePath)
@@ -747,7 +751,7 @@ public struct TypeDecoder {
         }
     }
 
-    /// Returns a TypeInfo enum which describes the type passed in.
+    /// Returns a `TypeInfo` enum which describes the type passed in.
     ///
     /// ### Usage Example: ###
     /// ```swift
