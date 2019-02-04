@@ -293,9 +293,11 @@ extension TypeInfo: CustomStringConvertible {
 }
 
 extension TypeInfo: Hashable {
+    #if !swift(>=4.2)
     public var hashValue: Int {
         return description.hashValue
     }
+    #endif
 }
 
 extension TypeInfo: Equatable {
