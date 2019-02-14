@@ -292,7 +292,6 @@ extension TypeInfo: CustomStringConvertible {
     }
 }
 
-
 extension TypeInfo: Hashable {
     #if swift(>=4.2)
     public func hash(into hasher: inout Hasher) {
