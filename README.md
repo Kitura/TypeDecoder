@@ -253,8 +253,8 @@ public class YoungAdult: Codable {
 }
 
 // Provide a value for 'age' which is within the acceptable range
-extension YoungAdult: DummyKeyedCodingValueProvider {
-    public static func dummyCodingValue(forKey key: CodingKey) -> Any? {
+extension YoungAdult: ValidKeyedCodingValueProvider {
+    public static func validCodingValue(forKey key: CodingKey) -> Any? {
         switch key.stringValue {
         case self.CodingKeys.age.stringValue:
             return 20
