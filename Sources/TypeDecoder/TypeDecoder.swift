@@ -245,7 +245,7 @@ extension TypeInfo: CustomDebugStringConvertible {
         switch self {
         case .cyclic(let type):
             return ".cyclic: \(String(reflecting: type))"
-        case .dynamicKeyed(_):
+        case .dynamicKeyed:
             return ".dynamicKeyed: \(self.description)"
         case .keyed(let original, _):
             return ".keyed: \(String(reflecting: original))"
