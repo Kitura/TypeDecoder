@@ -32,7 +32,7 @@
       </p>
     
         <p class="header-col header-col--secondary">
-          <a class="header-link" href="https://github.com/IBM-Swift/TypeDecoder">
+          <a class="header-link" href="https://github.com/Kitura/TypeDecoder">
             <img class="header-icon" src="img/gh.png"/>
             View on GitHub
           </a>
@@ -101,20 +101,20 @@
       <article class="main-content">
 
         <section class="section">
-          <div class="section-content">
+          <div class="section-content top-matter">
             
             <p align="center">
     <a href="http://kitura.io/">
-        <img src="https://raw.githubusercontent.com/IBM-Swift/Kitura/master/Sources/Kitura/resources/kitura-bird.svg?sanitize=true" height="100" alt="Kitura">
+        <img src="https://raw.githubusercontent.com/Kitura/Kitura/master/Sources/Kitura/resources/kitura-bird.svg?sanitize=true" height="100" alt="Kitura">
     </a>
 </p>
 
 <p align="center">
-    <a href="https://ibm-swift.github.io/TypeDecoder/index.html">
+    <a href="https://kitura.github.io/TypeDecoder/index.html">
     <img src="https://img.shields.io/badge/apidoc-TypeDecoder-1FBCE4.svg?style=flat" alt="APIDoc">
     </a>
-    <a href="https://travis-ci.org/IBM-Swift/TypeDecoder">
-    <img src="https://travis-ci.org/IBM-Swift/TypeDecoder.svg?branch=master" alt="Build Status - Master">
+    <a href="https://travis-ci.org/Kitura/TypeDecoder">
+    <img src="https://travis-ci.org/Kitura/TypeDecoder.svg?branch=master" alt="Build Status - Master">
     </a>
     <img src="https://img.shields.io/badge/os-macOS-green.svg?style=flat" alt="macOS">
     <img src="https://img.shields.io/badge/os-linux-green.svg?style=flat" alt="Linux">
@@ -132,8 +132,8 @@
 <h2 id='usage' class='heading'>Usage</h2>
 <h3 id='add-dependencies' class='heading'>Add dependencies</h3>
 
-<p>Add <code><a href="Structs/TypeDecoder.html">TypeDecoder</a></code> to the dependencies within your application&rsquo;s <code>Package.swift</code> file. Substitute <code>&quot;x.x.x&quot;</code> with the latest <code><a href="Structs/TypeDecoder.html">TypeDecoder</a></code> <a href="https://github.com/IBM-Swift/TypeDecoder/releases">release</a>.</p>
-<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/IBM-Swift/TypeDecoder.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"x.x.x"</span><span class="p">)</span>
+<p>Add <code><a href="Structs/TypeDecoder.html">TypeDecoder</a></code> to the dependencies within your application&rsquo;s <code>Package.swift</code> file. Substitute <code>&quot;x.x.x&quot;</code> with the latest <code><a href="Structs/TypeDecoder.html">TypeDecoder</a></code> <a href="https://github.com/Kitura/TypeDecoder/releases">release</a>.</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/Kitura/TypeDecoder.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"x.x.x"</span><span class="p">)</span>
 </code></pre>
 
 <p>Add <code><a href="Structs/TypeDecoder.html">TypeDecoder</a></code> to your target&rsquo;s dependencies:</p>
@@ -177,7 +177,7 @@
 
 <p>You can then use <code>.keyed(Any.Type, [String: TypeInfo])</code> to obtain a Dictionary of all the fields contained in the keyed structure, this allows you to retrieve each field&rsquo;s <code><a href="Enums/TypeInfo.html">TypeInfo</a></code> by name.</p>
 
-<p>In the case below, the type of field <q>aString</q> is a basic type, so you can use <code>.single(Any.Type, Any.Type)</code>. The appropriate enum value to call will vary depending on the field type, see the full implementation below for how to decode more complex types.</p>
+<p>In the case below, the type of field &ldquo;aString&rdquo; is a basic type, so you can use <code>.single(Any.Type, Any.Type)</code>. The appropriate enum value to call will vary depending on the field type, see the full implementation below for how to decode more complex types.</p>
 <pre class="highlight swift"><code><span class="k">if</span> <span class="k">case</span> <span class="o">.</span><span class="nf">keyed</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="k">let</span> <span class="nv">dict</span><span class="p">)</span> <span class="o">=</span> <span class="n">structureTypeInfo</span> <span class="p">{</span>
 
   <span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">The Dictionary returned from decoding StructureType contains:</span><span class="se">\n\(</span><span class="n">dict</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
@@ -336,8 +336,8 @@ aString is type String
 <span class="p">}</span>
 
 <span class="c1">// Provide a value for 'age' which is within the acceptable range</span>
-<span class="kd">extension</span> <span class="kt">YoungAdult</span><span class="p">:</span> <span class="kt">DummyKeyedCodingValueProvider</span> <span class="p">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">dummyCodingValue</span><span class="p">(</span><span class="n">forKey</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">CodingKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?</span> <span class="p">{</span>
+<span class="kd">extension</span> <span class="kt">YoungAdult</span><span class="p">:</span> <span class="kt">ValidKeyedCodingValueProvider</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">validCodingValue</span><span class="p">(</span><span class="n">forKey</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">CodingKey</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?</span> <span class="p">{</span>
         <span class="k">switch</span> <span class="n">key</span><span class="o">.</span><span class="n">stringValue</span> <span class="p">{</span>
         <span class="k">case</span> <span class="k">self</span><span class="o">.</span><span class="kt">CodingKeys</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="nv">stringValue</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">20</span>
@@ -362,13 +362,13 @@ aString is type String
 </code></pre>
 <h2 id='api-documentation' class='heading'>API documentation</h2>
 
-<p>For more information visit our <a href="http://ibm-swift.github.io/TypeDecoder/">API reference</a>.</p>
+<p>For more information visit our <a href="http://kitura.github.io/TypeDecoder/">API reference</a>.</p>
 <h2 id='community' class='heading'>Community</h2>
 
 <p>We love to talk server-side Swift, and Kitura. Join our <a href="http://swift-at-ibm-slack.mybluemix.net/">Slack</a> to meet the team!</p>
 <h2 id='license' class='heading'>License</h2>
 
-<p>This library is licensed under Apache 2.0. Full license text is available in <a href="https://github.com/IBM-Swift/TypeDecoder/blob/master/LICENSE.txt">LICENSE</a>.</p>
+<p>This library is licensed under Apache 2.0. Full license text is available in <a href="https://github.com/Kitura/TypeDecoder/blob/master/LICENSE.txt">LICENSE</a>.</p>
 
           </div>
         </section>
@@ -377,8 +377,8 @@ aString is type String
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2019 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2019-01-31)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">IBM &amp; Kitura Project Contributors</a>. All rights reserved. (Last updated: 2020-11-25)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
