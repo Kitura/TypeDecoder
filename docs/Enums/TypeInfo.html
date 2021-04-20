@@ -33,7 +33,7 @@
       </p>
     
         <p class="header-col header-col--secondary">
-          <a class="header-link" href="https://github.com/IBM-Swift/TypeDecoder">
+          <a class="header-link" href="https://github.com/Kitura/TypeDecoder">
             <img class="header-icon" src="../img/gh.png"/>
             View on GitHub
           </a>
@@ -102,11 +102,16 @@
       <article class="main-content">
 
         <section class="section">
-          <div class="section-content">
+          <div class="section-content top-matter">
             <h1>TypeInfo</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">indirect</span> <span class="kd">enum</span> <span class="kt">TypeInfo</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">TypeInfo</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">TypeInfo</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">TypeInfo</span><span class="p">:</span> <span class="kt">Hashable</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">TypeInfo</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
 
                 </div>
               </div>
@@ -122,9 +127,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11TypeDecoder0A4InfoO6singleACypXp_ypXptcACmF"></a>
-                    <a name="//apple_ref/swift/Element/single" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11TypeDecoder0A4InfoO6singleACypXp_ypXptcACmF">single</a>
+                    <a name="/s:11TypeDecoder0A4InfoO6singleyACypXp_ypXptcACmF"></a>
+                    <a name="//apple_ref/swift/Element/single(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO6singleyACypXp_ypXptcACmF">single(_:<wbr>_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -152,16 +157,12 @@
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11TypeDecoder0A4InfoO5keyedACypXp_AA17OrderedDictionaryVySSACGtcACmF"></a>
-                    <a name="//apple_ref/swift/Element/keyed" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11TypeDecoder0A4InfoO5keyedACypXp_AA17OrderedDictionaryVySSACGtcACmF">keyed</a>
+                    <a name="/s:11TypeDecoder0A4InfoO5keyedyACypXp_AA17OrderedDictionaryVySSACGtcACmF"></a>
+                    <a name="//apple_ref/swift/Element/keyed(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO5keyedyACypXp_AA17OrderedDictionaryVySSACGtcACmF">keyed(_:<wbr>_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -191,16 +192,12 @@
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11TypeDecoder0A4InfoO12dynamicKeyedACypXp_AC3keyAC5valuetcACmF"></a>
-                    <a name="//apple_ref/swift/Element/dynamicKeyed" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11TypeDecoder0A4InfoO12dynamicKeyedACypXp_AC3keyAC5valuetcACmF">dynamicKeyed</a>
+                    <a name="/s:11TypeDecoder0A4InfoO12dynamicKeyedyACypXp_A2CtcACmF"></a>
+                    <a name="//apple_ref/swift/Element/dynamicKeyed(_:key:value:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO12dynamicKeyedyACypXp_A2CtcACmF">dynamicKeyed(_:<wbr>key:<wbr>value:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -226,16 +223,12 @@ Dictionary, the type of the key and the type of the value.</p>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11TypeDecoder0A4InfoO7unkeyedACypXp_ACtcACmF"></a>
-                    <a name="//apple_ref/swift/Element/unkeyed" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11TypeDecoder0A4InfoO7unkeyedACypXp_ACtcACmF">unkeyed</a>
+                    <a name="/s:11TypeDecoder0A4InfoO7unkeyedyACypXp_ACtcACmF"></a>
+                    <a name="//apple_ref/swift/Element/unkeyed(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO7unkeyedyACypXp_ACtcACmF">unkeyed(_:<wbr>_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -261,16 +254,12 @@ and its nested type.</p>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11TypeDecoder0A4InfoO8optionalA2CcACmF"></a>
-                    <a name="//apple_ref/swift/Element/optional" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11TypeDecoder0A4InfoO8optionalA2CcACmF">optional</a>
+                    <a name="/s:11TypeDecoder0A4InfoO8optionalyA2CcACmF"></a>
+                    <a name="//apple_ref/swift/Element/optional(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO8optionalyA2CcACmF">optional(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -295,16 +284,12 @@ and its nested type.</p>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11TypeDecoder0A4InfoO6cyclicACypXpcACmF"></a>
-                    <a name="//apple_ref/swift/Element/cyclic" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11TypeDecoder0A4InfoO6cyclicACypXpcACmF">cyclic</a>
+                    <a name="/s:11TypeDecoder0A4InfoO6cyclicyACypXpcACmF"></a>
+                    <a name="//apple_ref/swift/Element/cyclic(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO6cyclicyACypXpcACmF">cyclic(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -333,16 +318,12 @@ and its nested type.</p>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:11TypeDecoder0A4InfoO6opaqueACypXpcACmF"></a>
-                    <a name="//apple_ref/swift/Element/opaque" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11TypeDecoder0A4InfoO6opaqueACypXpcACmF">opaque</a>
+                    <a name="/s:11TypeDecoder0A4InfoO6opaqueyACypXpcACmF"></a>
+                    <a name="//apple_ref/swift/Element/opaque(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11TypeDecoder0A4InfoO6opaqueyACypXpcACmF">opaque(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -367,6 +348,15 @@ and its nested type.</p>
               </ul>
             </div>
             <div class="task-group">
+              <div class="task-name-container">
+                <a name="/TypeInfo"></a>
+                <a name="//apple_ref/swift/Section/TypeInfo" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/TypeInfo"></a>
+                  <h3 class="section-name"><p>TypeInfo</p>
+</h3>
+                </div>
+              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
@@ -387,17 +377,13 @@ and its nested type.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">debugDescription</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">debugDescription</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
@@ -417,23 +403,19 @@ and its nested type.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:s8HashableP9hashValueSivp"></a>
-                    <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
-                    <a class="token" href="#/s:s8HashableP9hashValueSivp">hashValue</a>
+                    <a name="/s:SH4hash4intoys6HasherVz_tF"></a>
+                    <a name="//apple_ref/swift/Method/hash(into:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SH4hash4intoys6HasherVz_tF">hash(into:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -447,23 +429,37 @@ and its nested type.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashValue</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">hash</span><span class="p">(</span><span class="n">into</span> <span class="nv">hasher</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Hasher</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:s9EquatableP2eeoiSbx_xtFZ"></a>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Property/hashValue" class="dashAnchor"></a>
+                    <a class="token" href="#/">hashValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:SQ2eeoiySbx_xtFZ"></a>
                     <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:s9EquatableP2eeoiSbx_xtFZ">==(_:_:)</a>
+                    <a class="token" href="#/s:SQ2eeoiySbx_xtFZ">==(_:<wbr>_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -492,8 +488,8 @@ and its nested type.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2019 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2019-01-31)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">IBM &amp; Kitura Project Contributors</a>. All rights reserved. (Last updated: 2020-11-25)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
