@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="http://kitura.io/">
+    <a href="http://kitura.dev/">
         <img src="https://raw.githubusercontent.com/Kitura/Kitura/master/Sources/Kitura/resources/kitura-bird.svg?sanitize=true" height="100" alt="Kitura">
     </a>
 </p>
@@ -21,7 +21,7 @@
 
 # TypeDecoder
 
-TypeDecoder is a Swift library to allow the inspection of Swift language native and complex types. It was initially written for use within the [Kitura](http://kitura.io) project but can easily be used for a wide range of projects where the dynamic inspection of types is required.
+TypeDecoder is a Swift library to allow the inspection of Swift language native and complex types. It was initially written for use within the [Kitura](http://kitura.dev) project but can easily be used for a wide range of projects where the dynamic inspection of types is required.
 
 ## Swift version
 The latest version of the TypeDecoder requires **Swift 4.0** or newer. You can download this version of the Swift binaries by following this [link](https://swift.org/download/). Compatibility with other Swift versions is not guaranteed.
